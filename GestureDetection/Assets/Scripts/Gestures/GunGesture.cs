@@ -24,6 +24,8 @@ public class GunGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isGunGesture = false;
+
         //Si la bonne main est détectée
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
@@ -43,9 +45,25 @@ public class GunGesture : GestureMediator
                 //else if (finger == handController.GetFinger(Fingers5.pouce)) { isOnlyIndexThumbOpen = finger.IsFingerOpen();  }
                 else { if (finger.IsFingerOpen()) { isIndexOpen = isThumbOpen = false; } }
             }
-            return isIndexOpen && isThumbOpen;
+            isGunGesture = isIndexOpen && isThumbOpen;
         }
-        return false;
+        DisplayDectedGesture(isGunGesture);
+        return isGunGesture;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Pointeur (fusil) " + hand.ToString());
+        }
     }
 
     /*****************************************************

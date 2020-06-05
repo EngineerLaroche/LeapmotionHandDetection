@@ -15,6 +15,7 @@ public class BothPinchGesture : GestureMediator
     // Tolerance de détection du geste en %
     [Range(0.0f, 1.0f)]
     public float tolerance = 0.8f;
+    public float distance = 20f;
 
     /*****************************************************
     * DETECTED BOTH PINCH GESTURE
@@ -28,18 +29,35 @@ public class BothPinchGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isBothPinch = false;
         if (DetectionController.GetInstance().IsBothHandsDetected() && DetectionController.GetInstance().IsBothHandsVisible())
         {
             //Tolerence acceptable du pincement
             bool leftHandPinching = DetectionController.GetInstance().GetHand(HandsE.gauche).IsHandPinching(tolerance);
             bool rightHandPinching = DetectionController.GetInstance().GetHand(HandsE.droite).IsHandPinching(tolerance);
             //Pincement avec l'index et le pouce
-            bool leftIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.gauche).IsPinchDistance(20);
-            bool rightIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.droite).IsPinchDistance(20);
-            
-            return leftHandPinching && rightHandPinching && leftIndexThumbPinch && leftIndexThumbPinch;
+            bool leftIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.gauche).IsPinchDistance(distance);
+            bool rightIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.droite).IsPinchDistance(distance);
+
+            isBothPinch = leftHandPinching && rightHandPinching && leftIndexThumbPinch && rightIndexThumbPinch;
         }
-        return false;
+        DisplayDectedGesture(isBothPinch);
+        return isBothPinch;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Double pincement");
+        }
     }
 
     /*****************************************************

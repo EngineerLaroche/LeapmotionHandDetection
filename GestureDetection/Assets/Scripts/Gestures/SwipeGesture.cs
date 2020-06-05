@@ -20,7 +20,7 @@ public class SwipeGesture : GestureMediator
     // Parametres du glissement
     [Range(0.1f, 6.0f)]
     [SerializeField] private float velocity = 1.5f;
-    [SerializeField] private float cooldownTime = 0.3f;
+    [SerializeField] private float cooldownTime = 0.2f;
     private float coolDownLeft = 0.0f;
 
     // La direction du swipe pour le UI
@@ -95,6 +95,7 @@ public class SwipeGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isSwiping = false;
         swipeDirection = "";
 
         if (DetectionController.GetInstance().IsHandDetected(hand) && coolDownLeft <= 0.0f)
@@ -110,11 +111,27 @@ public class SwipeGesture : GestureMediator
                 {
                     swipeDirection = direction.ToString();
                     coolDownLeft = cooldownTime;
-                    return true;
+                    isSwiping = true;
                 }
             }
         }
-        return false;
+        DisplayDectedGesture(isSwiping);
+        return isSwiping;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Main " + hand.ToString() + " glisse vers: " + swipeDirection);
+        }
     }
 
     /*****************************************************

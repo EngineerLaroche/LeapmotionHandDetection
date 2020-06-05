@@ -49,6 +49,8 @@ public class ClapGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isClapping = false;
+
         //Si les deux mains sont visibles
         if (DetectionController.GetInstance().IsBothHandsVisible() && cooldownLeft <= 0.0f)
         {
@@ -63,11 +65,27 @@ public class ClapGesture : GestureMediator
                 if (DetectionController.GetInstance().GetDistanceBetweenHands() <= handsDistance)
                 {
                     cooldownLeft = cooldownTime;
-                    return true;
+                    isClapping = true;
                 }
             }
         }
-        return false;
+        DisplayDectedGesture(isClapping);
+        return isClapping;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Taper des mains");
+        }
     }
 
     /*****************************************************

@@ -65,7 +65,23 @@ public class ThumbOrIndexGesture : GestureMediator
                 }
             }
         }
+        //DisplayDectedGesture(isFingerOpen);
         return isFingerOpen;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Pouce et Index " + hand.ToString());
+        }
     }
 
     /*****************************************************

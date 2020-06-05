@@ -26,13 +26,33 @@ public class BothFistGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isBothFist = false;
         if (DetectionController.GetInstance().IsHandDetected(HandsE.gauche) &&
             DetectionController.GetInstance().IsHandDetected(HandsE.droite))
         {
-            return DetectionController.GetInstance().GetHand(HandsE.gauche).IsFist(tolerance) && 
-                    DetectionController.GetInstance().GetHand(HandsE.droite).IsFist(tolerance);
+            DetectionController.HandController leftHand = DetectionController.GetInstance().GetHand(HandsE.gauche);
+            DetectionController.HandController rightHand = DetectionController.GetInstance().GetHand(HandsE.droite);      
+
+            isBothFist = leftHand.IsFist(tolerance) && leftHand.IsAllFingersClosed() &&
+                          rightHand.IsFist(tolerance) && rightHand.IsAllFingersClosed();
         }
-        return false;
+        DisplayDectedGesture(isBothFist);
+        return isBothFist;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Double poing");
+        }
     }
 
     /*****************************************************

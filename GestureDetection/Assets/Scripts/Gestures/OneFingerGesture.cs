@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*****************************************************
  * CLASS:   ONE FINGER GESTURE
@@ -11,10 +12,10 @@ using UnityEngine;
  *****************************************************/
 public class OneFingerGesture : GestureMediator
 {
-    // La main qui effectuer le geste
+    // La main et le doigt qui effectue le geste
     public HandsE hand = HandsE.droite;
-    // Le doigt de la main qui represente le geste
     public FingersE finger = FingersE.index;
+
 
     /*****************************************************
     * DETECTED ONLY INDEX GESTURE
@@ -23,23 +24,42 @@ public class OneFingerGesture : GestureMediator
     *           
     *****************************************************/
     public override bool IsDetectedGesture()
-    {      
-        //Si la bonne main est détectée
-        if (DetectionController.GetInstance().IsHandDetected(hand))
-        {
-            bool onlyThisFingerOpened = false;
-            DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
+    {
+        //Si la main du geste n'est pas détectée.
+        if (!DetectionController.GetInstance().IsHandDetected(hand)) { return false; }
 
-            //Pour tous les doigts de la main
-            foreach (DetectionController.FingerController fingerController in handController.GetFingers())
+        DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
+        bool onlyThisFingerOpened = false;
+
+        //Pour tous les doigts de la main, partant de l'auriculaire
+        for (int i = 0; i < (int)FingersE.auriculaire; i++)
+        {
+            FingersE _finger = FingersE.pouce + i;
+
+            if (handController.GetFinger(_finger).IsFingerOpen())
             {
-                //Verifie si l'index est ouvert et que les autres doigts sont fermés
-                if (fingerController == handController.GetFinger(finger)) { onlyThisFingerOpened = fingerController.IsFingerOpen(); }
-                else { if (fingerController.IsFingerOpen()) { onlyThisFingerOpened = false; } }
+                //Verifie si seulement le doigt est ouvert et que les autres sont fermés
+                if (_finger == finger) { onlyThisFingerOpened = true; }
+                else { return false; }
             }
-            return onlyThisFingerOpened;
         }
-        return false;  
+        DisplayDectedGesture(onlyThisFingerOpened);
+        return onlyThisFingerOpened;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture(finger.ToString() + " " + hand.ToString());
+        }
     }
 
     /*****************************************************
@@ -52,6 +72,6 @@ public class OneFingerGesture : GestureMediator
     *****************************************************/
     public override string DetectedGestureName()
     {
-        return "Finger (" + hand.ToString() + " - " + finger.ToString() + ")";
+        return finger.ToString() + " " + hand.ToString();
     }
 }

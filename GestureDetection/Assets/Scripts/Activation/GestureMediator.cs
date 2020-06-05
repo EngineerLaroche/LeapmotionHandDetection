@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using System;
+
 
 /*****************************************************
  * CLASS:   GESTURE MEDIATOR
@@ -29,6 +32,7 @@ public class GestureMediator : HandDataStructure
     public static HandsE handDetected = HandsE.inconnu;
     //private bool soundPlayed = true;
 
+    
     /*****************************************************
      * IS GESTURE DETECTION
      *
@@ -47,20 +51,13 @@ public class GestureMediator : HandDataStructure
             gestureDetectedType = isDetected ? DetectedGestureName() : "";
             handDetected = isDetected ? DetectedHand() : HandsE.inconnu;
 
-            Debug.Log("*** Gesture Detected :   " + DetectedGestureName());
-
-            //if (isDetected && gestureDetectedType.Contains("Swipe"))
-            //{
-            //    Debug.Log("*** Gesture Detected :   " + DetectedGestureName());
-            //}
-
             PlaySoundOnGesture();
         }
 
         return isDetected;
     }
 
-
+    //TODO***
     private void PlaySoundOnGesture()
     {
         if (gestureDetectedType.Contains("Both Fist")) { SoundController.GetInstance().PlaySound(AudioE.select); }
@@ -130,3 +127,5 @@ public class GestureMediator : HandDataStructure
         return HandsE.inconnu;
     }
 }
+
+

@@ -30,11 +30,28 @@ public class PinchGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isPinching = false;
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
-            return DetectionController.GetInstance().GetHand(hand).IsHandPinching(tolerance);
+            isPinching = DetectionController.GetInstance().GetHand(hand).IsHandPinching(tolerance);
         }
-        return false;
+        DisplayDectedGesture(isPinching);
+        return isPinching;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Pincement " + hand.ToString());
+        }
     }
 
     /*****************************************************

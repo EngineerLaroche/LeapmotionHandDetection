@@ -95,8 +95,8 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * START INDEX ONLY
     *
-    * INFO:    Confirme l'utilisation seule de l'index
-    *          ...
+    * INFO:    Fonction appelée lorsque seulement l'index
+    *          a été détecté.
     *
     *****************************************************/
     public void StartIndexOnly()
@@ -108,8 +108,8 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * START INDEX AND THUMB ONLY
     *
-    * INFO:    Confirme l'utilisation seule de l'index et
-    *          du pouce.  ...
+    * INFO:    Fonction appelée lorsque seulement l'index
+    *          et le pouce sont sont détectés.
     *
     *****************************************************/
     public void StartIndexThumbOnly()
@@ -121,8 +121,9 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * STOP INDEX ONLY
     *
-    * INFO:    Cessation de l'utilisation seule de l'index
-    *          ...
+    * INFO:    Fonction appelée lorsqu'après avoir détecté
+    *          le pouce et l'index, seulement l'index est
+    *          détecté.
     *
     *****************************************************/
     public void StopIndexOnly()
@@ -133,8 +134,8 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * STOP INDEX AND THUMB ONLY
     *
-    * INFO:    Cessation de l'utilisation seule de l'index 
-    *          et du pouce ...
+    * INFO:    Fonction appelée lorsqu'après avoir détecté
+    *          seulement l'index, détecte l'index seulement.
     *
     *****************************************************/
     public void StopIndexThumbOnly()

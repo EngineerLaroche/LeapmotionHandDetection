@@ -5,6 +5,7 @@ using UnityEngine;
 using Leap.Unity;
 using TMPro;
 using Leap;
+using System;
 
 /*****************************************************
 * CLASS:    SYSTEM UI CONTROLLER
@@ -20,6 +21,9 @@ using Leap;
 *****************************************************/
 public class SystemUIController : HandDataStructure
 {
+    //Instance de la classe
+    private static SystemUIController instance = null;
+
     //Press key to display system UI
     public KeyCode keyDisplayUI = KeyCode.U;
 
@@ -113,6 +117,10 @@ public class SystemUIController : HandDataStructure
     private LeapProvider leapProvider;
     private SmoothedFloat smooth = new SmoothedFloat();
 
+    //Display liste of detected gestures
+    float displayedTime = 0.1f;
+    List<GestureData> detectedGestureList = new List<GestureData>();
+
 
     /*****************************************************
     * AWAKE
@@ -124,6 +132,9 @@ public class SystemUIController : HandDataStructure
     *****************************************************/
     void Awake()
     {
+        //Initialise l'instance de cette classe
+        if (instance == null) { instance = this; }
+
         // Instance Leap
         if (leapProvider == null) { leapProvider = Hands.Provider; }
         smooth.delay = 0.3f;
@@ -136,22 +147,6 @@ public class SystemUIController : HandDataStructure
         // Listes des images de la main gauche et droite pour faciliter la gestion
         leftHandImages = new UnityEngine.UI.Image[] { L_Hand, L_Thumb, L_Index, L_Majeur, L_Annulaire, L_Auriculaire };
         rightHandImages = new UnityEngine.UI.Image[] { R_Hand, R_Thumb, R_Index, R_Majeur, R_Annulaire, R_Auriculaire };
-    }
-
-    /*****************************************************
-    * UPDATE GESTURE LABEL
-    *
-    * INFO:    Met a jour le label qui indique le type de 
-    *          geste détecté en temps réel.
-    *
-    *****************************************************/
-    private void UpdateGestureLabel()
-    {
-        // Gesture label
-        if (gestureLabel != null)
-        {
-            gestureLabel.text = "Geste: " + GestureMediator.GetGestureType();
-        }
     }
 
     /*****************************************************
@@ -345,197 +340,288 @@ public class SystemUIController : HandDataStructure
      *****************************************************/
     private void UpdateUserCoord()
     {
-        //La liste des objets sélectionnés avec le raycast
-        List<SelectedObject> objectsToRotateList = SelectionController.GetInstance().GetSelectedObjects();
-
-        if (objectsToRotateList.Count > 0)
+        if (SelectionController.GetInstance() != null)
         {
-            float meanPosX = 0f;
-            float meanPosY = 0f;
-            float meanPosZ = 0f;
+            //La liste des objets sélectionnés avec le raycast
+            List<SelectedObject> objectsToRotateList = SelectionController.GetInstance().GetSelectedObjects();
 
-            float meanRotX = 0f;
-            float meanRotY = 0f;
-            float meanRotZ = 0f;
-
-            float meanScaleX = 0f;
-            float meanScaleY = 0f;
-            float meanScaleZ = 0f;
-
-            //Calculate Mean values for all objects coord.
-            foreach (SelectedObject objectToRotate in objectsToRotateList)
+            if (objectsToRotateList.Count > 0)
             {
-                meanPosX += objectToRotate.TransformObject.position.x;
-                meanPosY += objectToRotate.TransformObject.position.y;
-                meanPosZ += objectToRotate.TransformObject.position.z;
+                float meanPosX = 0f;
+                float meanPosY = 0f;
+                float meanPosZ = 0f;
 
-                meanRotX += objectToRotate.TransformObject.eulerAngles.x;
-                meanRotY += objectToRotate.TransformObject.eulerAngles.y;
-                meanRotZ += objectToRotate.TransformObject.eulerAngles.z;
+                float meanRotX = 0f;
+                float meanRotY = 0f;
+                float meanRotZ = 0f;
 
-                meanScaleX += objectToRotate.TransformObject.localScale.x;
-                meanScaleY += objectToRotate.TransformObject.localScale.y;
-                meanScaleZ += objectToRotate.TransformObject.localScale.z;
+                float meanScaleX = 0f;
+                float meanScaleY = 0f;
+                float meanScaleZ = 0f;
+
+                //Calculate Mean values for all objects coord.
+                foreach (SelectedObject objectToRotate in objectsToRotateList)
+                {
+                    meanPosX += objectToRotate.TransformObject.position.x;
+                    meanPosY += objectToRotate.TransformObject.position.y;
+                    meanPosZ += objectToRotate.TransformObject.position.z;
+
+                    meanRotX += objectToRotate.TransformObject.eulerAngles.x;
+                    meanRotY += objectToRotate.TransformObject.eulerAngles.y;
+                    meanRotZ += objectToRotate.TransformObject.eulerAngles.z;
+
+                    meanScaleX += objectToRotate.TransformObject.localScale.x;
+                    meanScaleY += objectToRotate.TransformObject.localScale.y;
+                    meanScaleZ += objectToRotate.TransformObject.localScale.z;
+                }
+
+                //Coord. position de l'utilisateur
+                posX.text = "x:  " + (meanPosX / objectsToRotateList.Count).ToString("F2");
+                posY.text = "y:  " + (meanPosY / objectsToRotateList.Count).ToString("F2");
+                posZ.text = "z:  " + (meanPosZ / objectsToRotateList.Count).ToString("F2");
+                //Coord. rotation de l'utilisateur
+                rotX.text = "x:  " + (meanRotX / objectsToRotateList.Count).ToString("F2");
+                rotY.text = "y:  " + (meanPosY / objectsToRotateList.Count).ToString("F2");
+                rotZ.text = "z:  " + (meanPosZ / objectsToRotateList.Count).ToString("F2");
+                //Coord. scaling de l'utilisateur
+                scaleX.text = "x:  " + (meanScaleX / objectsToRotateList.Count).ToString("F2");
+                scaleY.text = "y:  " + (meanScaleY / objectsToRotateList.Count).ToString("F2");
+                scaleZ.text = "z:  " + (meanScaleZ / objectsToRotateList.Count).ToString("F2");
             }
-
-            //Coord. position de l'utilisateur
-            posX.text = "x:  " + (meanPosX / objectsToRotateList.Count).ToString("F2");
-            posY.text = "y:  " + (meanPosY / objectsToRotateList.Count).ToString("F2");
-            posZ.text = "z:  " + (meanPosZ / objectsToRotateList.Count).ToString("F2");
-            //Coord. rotation de l'utilisateur
-            rotX.text = "x:  " + (meanRotX / objectsToRotateList.Count).ToString("F2");
-            rotY.text = "y:  " + (meanPosY / objectsToRotateList.Count).ToString("F2");
-            rotZ.text = "z:  " + (meanPosZ / objectsToRotateList.Count).ToString("F2");
-            //Coord. scaling de l'utilisateur
-            scaleX.text = "x:  " + (meanScaleX / objectsToRotateList.Count).ToString("F2");
-            scaleY.text = "y:  " + (meanScaleY / objectsToRotateList.Count).ToString("F2");
-            scaleZ.text = "z:  " + (meanScaleZ / objectsToRotateList.Count).ToString("F2");
         }
     }
 
-/*****************************************************
- * RESET SLIDER
- *
- * INFO:    Permet de remettre un slider à son état
- *          original.
- *
- *****************************************************/
-public void ResetSlider(Slider slider)
-{
-    slider.value = 0;
-    slider.image.color = Color.gray;
-}
-
-/*****************************************************
- * SWIPE SLIDER TIMER
- *
- * INFO:    Permet de decrementer la valeur du slider 
- *          automatiquement de 100% à 0% en 1 sec. 
- *
- *****************************************************/
-public IEnumerator SwipeSliderTimer(Slider slider)
-{
-    slider.value = 1f;
-    float newValue = 0f;
-
-    do
+    /*****************************************************
+     * RESET SLIDER
+     *
+     * INFO:    Permet de remettre un slider à son état
+     *          original.
+     *
+     *****************************************************/
+    public void ResetSlider(Slider slider)
     {
-        newValue = Time.deltaTime; //en 0.5 sec
-        slider.value -= newValue;
-        slider.image.color = Color.green;
-        yield return null;
-    } while (slider.value > 0);
-
-    slider.value = 0f;
-    slider.image.color = Color.gray;
-
-    yield return null;
-}
-
-/*****************************************************
- * DISPLAY OR HIDE UI
- *
- * INFO:    Appuyer sur 'D' (clavier) permet d'afficher 
- *          ou cacher le UI qui donne en temps reel de 
- *          l'information sur le systeme et la détection 
- *          des gestes.
- *
- *****************************************************/
-private void DisplayHideUI()
-{
-    if (Input.GetKeyDown(keyDisplayUI))
-    {
-        //Affiche ou cache les parties du UI
-        leftObjectsUI.SetActive(isDisplayed ? false : true);
-        rightObjectsUI.SetActive(isDisplayed ? false : true);
-        topObjectsUI.SetActive(isDisplayed ? false : true);
-        isDisplayed = isDisplayed ? false : true;
+        slider.value = 0;
+        slider.image.color = Color.gray;
     }
-}
 
-/*****************************************************
- * UPDATE RAYCAST DISTANCE
- *
- * INFO:    Affiche la distance entre le bout du doigt
- *          qui a le raycast et l'objet 3D pointé.
- *
- *****************************************************/
-private void UpdateRaycastDistance()
-{
-    if (DetectionController.GetInstance().IsHandDetected(SelectionController.GetInstance().GetHand()))
+    /*****************************************************
+     * SWIPE SLIDER TIMER
+     *
+     * INFO:    Permet de decrementer la valeur du slider 
+     *          automatiquement de 100% à 0% en 1 sec. 
+     *
+     *****************************************************/
+    public IEnumerator SwipeSliderTimer(Slider slider)
     {
-        float raycastDistance = SelectionController.GetInstance().GetRaycastDistance();
-        if (raycastDistance > 0f)
+        slider.value = 1f;
+        float newValue = 0f;
+
+        do
         {
-            raycastLabel.text = "Raycast contact distance: " +
-                SelectionController.GetInstance().GetRaycastDistance().ToString("F2") + " m";
+            newValue = Time.deltaTime; //en 0.5 sec
+            slider.value -= newValue;
+            slider.image.color = Color.green;
+            yield return null;
+        } while (slider.value > 0);
+
+        slider.value = 0f;
+        slider.image.color = Color.gray;
+
+        yield return null;
+    }
+
+    /*****************************************************
+     * DISPLAY OR HIDE UI
+     *
+     * INFO:    Appuyer sur 'D' (clavier) permet d'afficher 
+     *          ou cacher le UI qui donne en temps reel de 
+     *          l'information sur le systeme et la détection 
+     *          des gestes.
+     *
+     *****************************************************/
+    private void DisplayHideUI()
+    {
+        if (Input.GetKeyDown(keyDisplayUI))
+        {
+            //Affiche ou cache les parties du UI
+            leftObjectsUI.SetActive(isDisplayed ? false : true);
+            rightObjectsUI.SetActive(isDisplayed ? false : true);
+            topObjectsUI.SetActive(isDisplayed ? false : true);
+            isDisplayed = isDisplayed ? false : true;
         }
-        else { raycastLabel.text = "Raycast contact distance: n/a"; }
+    }
+
+    /*****************************************************
+     * UPDATE RAYCAST DISTANCE
+     *
+     * INFO:    Affiche la distance entre le bout du doigt
+     *          qui a le raycast et l'objet 3D pointé.
+     *
+     *****************************************************/
+    private void UpdateRaycastDistance()
+    {
+        if (SelectionController.GetInstance() != null)
+        {
+            if (DetectionController.GetInstance().IsHandDetected(SelectionController.GetInstance().GetHand()))
+            {
+                float raycastDistance = SelectionController.GetInstance().GetRaycastDistance();
+                if (raycastDistance > 0f)
+                {
+                    raycastLabel.text = "Contact dist.: " +
+                        SelectionController.GetInstance().GetRaycastDistance().ToString("F2") + " m";
+                }
+                else { raycastLabel.text = "Contact dist.: n/a"; }
+            }
+        }
+    }
+
+    /*****************************************************
+     * RESET UI ELEMENTS
+     *
+     * INFO:    Si la main gauche et/ou droite n'est pas
+     *          détectée, on remet les éléments du UI par
+     *          defaut selon la main.
+     *
+     *****************************************************/
+    private void ResetUIElements(bool leftHandDetected, bool rightHandDetected)
+    {
+        // Reset les objets UI si la main gauche n'es pas détectée
+        if (!leftHandDetected)
+        {
+            ResetSlider(clapLeftHand);
+            ResetSlider(leftFistSlider);
+            leftPinchSlider.value = -100;
+            leftPinchSlider.image.color = Color.gray;
+            for (int i = 0; i < leftHandSwipeSliders.Length; i++) { ResetSlider(leftHandSwipeSliders[i]); }
+            for (int i = 0; i < leftHandImages.Length; i++) { leftHandImages[i].enabled = false; }
+        }
+
+        // Reset les objets UI si la main droite n'es pas détectée
+        if (!rightHandDetected)
+        {
+            ResetSlider(clapRightHand);
+            ResetSlider(rightFistSlider);
+            rightPinchSlider.value = -100;
+            rightPinchSlider.image.color = Color.gray;
+            for (int i = 0; i < rightHandSwipeSliders.Length; i++) { ResetSlider(rightHandSwipeSliders[i]); }
+            for (int i = 0; i < rightHandImages.Length; i++) { rightHandImages[i].enabled = false; }
+        }
+    }
+
+    /*****************************************************
+    * ADD GESTURE
+    *
+    * INFO:    Lorsqu'un geste est détecté, on appel cette
+    *          fonction et le type de geste est ajouté dans 
+    *          la liste.
+    *
+    *****************************************************/
+    public void AddGesture(string gestureType)
+    {
+        GestureData results = new GestureData(gestureType, displayedTime);
+        foreach (GestureData d in detectedGestureList)
+        {
+            if (d.gesture.Equals(gestureType)) { return; }
+        }
+        detectedGestureList.Add(results);
+    }
+
+    /*****************************************************
+    * UPDATE DETECTED GESTURE
+    *
+    * INFO:    Maintient a jour l'affichage des gestes 
+    *          détectés et construit le texte a afficher.
+    *
+    *****************************************************/
+    private void UpdateDetectedGestures()
+    {
+        string message = "Gestes : \n";
+        List<GestureData> removeList = new List<GestureData>();
+
+        for (int i = 0; i < detectedGestureList.Count; i++)
+        {
+            GestureData data = detectedGestureList[i];
+            message += data.gesture + "\n";
+            
+            float time = data.time;
+            time -= Time.deltaTime;
+
+            //Lorsque le temps est écoulé
+            if (time <= 0.0f) { removeList.Add(data); }          
+            data.time = time;
+            detectedGestureList[i] = data;
+        }
+        // Affiche les gestes détectés
+        gestureLabel.text = message; 
+
+        //Retire le geste lorsque son temps d'affichage est écoulé
+        foreach (GestureData data in removeList)
+        {
+            detectedGestureList.Remove(data);
+        }
+    }
+
+    /*****************************************************
+    * UPDATE
+    *
+    * INFO:    Maintient a jour tous les objets du UI en 
+    *          appelant les fonctions séparées en type d'objets.
+    *          C'est aussi ici qu'opn détecte si l'utilisateur
+    *          a appuyé sur 'D' pour afficher ou chacher le UI.
+    *
+    *****************************************************/
+    void Update()
+    {
+        // Affiche ou chache le UI en appuyant sur 'D'
+        DisplayHideUI();
+        UpdateDetectedGestures();
+
+        // Met a jour les éléments du UI seulement lorsque le UI est activé.
+        if (isDisplayed)
+        {
+            //UpdateGestureLabel();
+            UpdateFPSLabel();
+            UpdateFistPinchSliders();
+            UpdateHandFingertipImage();
+            UpdateSwipeSliders();
+            UpdateUserCoord();
+            UpdateRaycastDistance();
+            UpdateClapSliders();
+        }
+
+        //Remet les éléments du UI à l'état par defaut si la main n'est pas détectée
+        ResetUIElements(DetectionController.GetInstance().IsHandDetected(HandsE.gauche),
+            DetectionController.GetInstance().IsHandDetected(HandsE.droite));
+    }
+
+    /*****************************************************
+    * GET CLASS INSTANCE
+    *
+    * INFO:    Retourne l'instance de cette classe.
+    *
+    *****************************************************/
+    public static SystemUIController GetInstance()
+    {
+        return instance;
     }
 }
 
 /*****************************************************
- * RESET UI ELEMENTS
- *
- * INFO:    Si la main gauche et/ou droite n'est pas
- *          détectée, on remet les éléments du UI par
- *          defaut selon la main.
- *
- *****************************************************/
-private void ResetUIElements(bool leftHandDetected, bool rightHandDetected)
-{
-    // Reset les objets UI si la main gauche n'es pas détectée
-    if (!leftHandDetected)
-    {
-        ResetSlider(clapLeftHand);
-        ResetSlider(leftFistSlider);
-        leftPinchSlider.value = -100;
-        leftPinchSlider.image.color = Color.gray;
-        for (int i = 0; i < leftHandSwipeSliders.Length; i++) { ResetSlider(leftHandSwipeSliders[i]); }
-        for (int i = 0; i < leftHandImages.Length; i++) { leftHandImages[i].enabled = false; }
-    }
-
-    // Reset les objets UI si la main droite n'es pas détectée
-    if (!rightHandDetected)
-    {
-        ResetSlider(clapRightHand);
-        ResetSlider(rightFistSlider);
-        rightPinchSlider.value = -100;
-        rightPinchSlider.image.color = Color.gray;
-        for (int i = 0; i < rightHandSwipeSliders.Length; i++) { ResetSlider(rightHandSwipeSliders[i]); }
-        for (int i = 0; i < rightHandImages.Length; i++) { rightHandImages[i].enabled = false; }
-    }
-}
-
-/*****************************************************
-* UPDATE
+* GESTURE DATA
 *
-* INFO:    Maintient a jour tous les objets du UI en 
-*          appelant les fonctions séparées en type d'objets.
-*          C'est aussi ici qu'opn détecte si l'utilisateur
-*          a appuyé sur 'D' pour afficher ou chacher le UI.
+* INFO:    Pour chaque geste détecté, on utilise
+*          cette classe pour sauvegarder le type
+*          et le moment auquel le geste a été détecté.
 *
 *****************************************************/
-void Update()
+public class GestureData
 {
-    // Affiche ou chache le UI en appuyant sur 'D'
-    DisplayHideUI();
+    public string gesture;
+    public float time;
 
-    // Met a jour les éléments du UI seulement lorsque le UI est activé.
-    if (isDisplayed)
+    public GestureData(string _gesture, float time)
     {
-        UpdateFPSLabel();
-        UpdateGestureLabel();
-        UpdateFistPinchSliders();
-        UpdateHandFingertipImage();
-        UpdateSwipeSliders();
-        UpdateUserCoord();
-        UpdateRaycastDistance();
-        UpdateClapSliders();
+        this.gesture = _gesture;
+        this.time = time;
     }
-
-    //Remet les éléments du UI à l'état par defaut si la main n'est pas détectée
-    ResetUIElements(DetectionController.GetInstance().IsHandDetected(HandsE.gauche),
-        DetectionController.GetInstance().IsHandDetected(HandsE.droite));
-}
 }

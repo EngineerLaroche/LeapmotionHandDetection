@@ -84,15 +84,4 @@ public class GestureController : MonoBehaviour
             }
         }
     }
-
-    /*****************************************************
-    * GET CLASS INSTANCE
-    *
-    * INFO:    Retourne la liste des gestes (string)
-    *
-    *****************************************************/
-    public GestureMediator[] GestGesturesName()
-    {
-        return gestures;
-    }
 }

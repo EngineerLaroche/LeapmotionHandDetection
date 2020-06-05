@@ -208,15 +208,18 @@ partial class DetectionController : HandDataStructure
             // Initialise les mains détectées par le LeapMotion
             foreach (Hand hand in frame.Hands) { UpdateHandState(hand); }
 
-            //Demarre le raycast et la selection d'objet 3D
-            SelectionController.GetInstance().InitiateRaycast();
+            if (SelectionController.GetInstance() != null)
+            {
+                //Demarre le raycast et la selection d'objet 3D
+                SelectionController.GetInstance().InitiateRaycast();
+            }
         }
         else
         {
             isLeftHandVisible = isRightHandVisible = false;
 
             //Si la main du raycast n'est plus détecté, on reset une fois le highlight des objets
-            if (!isObjectsMaterialCleared)
+            if (!isObjectsMaterialCleared && SelectionController.GetInstance() != null)
             {
                 SelectionController.GetInstance().ClearTargetedObjects();
                 isObjectsMaterialCleared = true;

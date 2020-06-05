@@ -155,6 +155,22 @@ partial class DetectionController
         }
 
         /*****************************************************
+        * IS ALL FINGERS CLOSED
+        *
+        * INFO:    Retourne vrai si tous les doigts de la main
+        *          sont fermés.
+        * 
+        *****************************************************/
+        public bool IsAllFingersClosed()
+        {
+            return (!GetFinger(FingersE.annulaire).IsFingerOpen() &&
+                !GetFinger(FingersE.auriculaire).IsFingerOpen() &&
+                !GetFinger(FingersE.index).IsFingerOpen() &&
+                !GetFinger(FingersE.majeur).IsFingerOpen() &&
+                !GetFinger(FingersE.pouce).IsFingerOpen());
+        }
+
+        /*****************************************************
         * GET HAND AXIS
         *
         * INFO:    Retourne l'axe de deplacement d'un des 
@@ -263,7 +279,7 @@ partial class DetectionController
         * GET FINGERS COUNT
         *
         * INFO:    Retourne le nombre de doigts détecté par 
-        *          LeapMotion pour cette main.
+        *          LeapMotion pour cette main. (5)
         * 
         *****************************************************/
         public int GetFingersCount()

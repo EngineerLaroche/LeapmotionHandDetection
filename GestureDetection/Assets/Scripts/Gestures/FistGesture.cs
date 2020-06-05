@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Leap.Unity.Interaction.Examples;
 
 /*****************************************************
  * CLASS:   FIST GESTURE
@@ -29,11 +30,29 @@ public class FistGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
+        bool isFisting = false;
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
-            return DetectionController.GetInstance().GetHand(hand).IsFist(tolerance);
+            DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
+            isFisting = handController.IsFist(tolerance) && handController.IsAllFingersClosed();    
         }
-        return false;
+        DisplayDectedGesture(isFisting);
+        return isFisting;
+    }
+
+    /*****************************************************
+    * DISPLAY DETECTED GESTURE
+    *
+    * INFO:    Indique le geste détecté pour être affiché
+    *          sur le UI System.
+    *          
+    *****************************************************/
+    private void DisplayDectedGesture(bool isDetected)
+    {
+        if (isDetected)
+        {
+            SystemUIController.GetInstance().AddGesture("Poing " + hand.ToString());
+        }
     }
 
     /*****************************************************
@@ -46,6 +65,6 @@ public class FistGesture : GestureMediator
     *****************************************************/
     public override string DetectedGestureName()
     {
-        return "Poing (" + hand.ToString() + ")";
+        return "Poing " + hand.ToString();
     }
 }
