@@ -11,9 +11,19 @@ using System.Collections;
  *****************************************************/
 public class BothFistGesture : GestureMediator
 {
+    //Instance de la classe
+    private static BothFistGesture instance = null;
+
     // Tolerance de détection du geste en %
     [Range(0.0f, 1.0f)]
     public float tolerance = 0.8f;
+    private bool isBothFist = false;
+
+
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+    }
 
     /*****************************************************
     * DETECTED FIST GESTURE
@@ -26,7 +36,7 @@ public class BothFistGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
-        bool isBothFist = false;
+        isBothFist = false;
         if (DetectionController.GetInstance().IsHandDetected(HandsE.gauche) &&
             DetectionController.GetInstance().IsHandDetected(HandsE.droite))
         {
@@ -66,5 +76,21 @@ public class BothFistGesture : GestureMediator
     public override string DetectedGestureName()
     {
         return "Both Fist";
+    }
+
+    /*****************************************************
+    * GET CLASS INSTANCE
+    *
+    * INFO:    Retourne l'instance de cette classe.
+    *
+    *****************************************************/
+    public static BothFistGesture GetInstance()
+    {
+        return instance;
+    }
+
+    public bool IsBothFisting()
+    {
+        return isBothFist;
     }
 }

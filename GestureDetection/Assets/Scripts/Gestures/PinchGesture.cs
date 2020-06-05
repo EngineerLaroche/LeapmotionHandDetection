@@ -33,7 +33,8 @@ public class PinchGesture : GestureMediator
         bool isPinching = false;
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
-            isPinching = DetectionController.GetInstance().GetHand(hand).IsHandPinching(tolerance);
+            isPinching = DetectionController.GetInstance().GetHand(hand).IsHandPinching(tolerance) &&
+                            !BothPinchGesture.GetInstance().IsBothPinching();
         }
         DisplayDectedGesture(isPinching);
         return isPinching;

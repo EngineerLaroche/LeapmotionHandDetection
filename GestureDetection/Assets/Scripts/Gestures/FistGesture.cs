@@ -34,7 +34,7 @@ public class FistGesture : GestureMediator
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
             DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
-            isFisting = handController.IsFist(tolerance) && handController.IsAllFingersClosed();    
+            isFisting = handController.IsFist(tolerance) && handController.IsAllFingersClosed() && !BothFistGesture.GetInstance().IsBothFisting();    
         }
         DisplayDectedGesture(isFisting);
         return isFisting;

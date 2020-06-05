@@ -12,10 +12,20 @@ using System.Collections;
  *****************************************************/
 public class BothPinchGesture : GestureMediator
 {
+    //Instance de la classe
+    private static BothPinchGesture instance = null;
+
     // Tolerance de détection du geste en %
     [Range(0.0f, 1.0f)]
     public float tolerance = 0.8f;
     public float distance = 20f;
+    private bool isBothPinch = false;
+
+
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+    }
 
     /*****************************************************
     * DETECTED BOTH PINCH GESTURE
@@ -29,7 +39,7 @@ public class BothPinchGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
-        bool isBothPinch = false;
+        isBothPinch = false;
         if (DetectionController.GetInstance().IsBothHandsDetected() && DetectionController.GetInstance().IsBothHandsVisible())
         {
             //Tolerence acceptable du pincement
@@ -39,7 +49,7 @@ public class BothPinchGesture : GestureMediator
             bool leftIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.gauche).IsPinchDistance(distance);
             bool rightIndexThumbPinch = DetectionController.GetInstance().GetHand(HandsE.droite).IsPinchDistance(distance);
 
-            isBothPinch = leftHandPinching && rightHandPinching && leftIndexThumbPinch && rightIndexThumbPinch;
+            isBothPinch = leftHandPinching && rightHandPinching && leftIndexThumbPinch && rightIndexThumbPinch && !BothFistGesture.GetInstance().IsBothFisting();
         }
         DisplayDectedGesture(isBothPinch);
         return isBothPinch;
@@ -71,5 +81,21 @@ public class BothPinchGesture : GestureMediator
     public override string DetectedGestureName()
     {
         return "Both Pinch";
+    }
+
+    /*****************************************************
+    * GET CLASS INSTANCE
+    *
+    * INFO:    Retourne l'instance de cette classe.
+    *
+    *****************************************************/
+    public static BothPinchGesture GetInstance()
+    {
+        return instance;
+    }
+
+    public bool IsBothPinching()
+    {
+        return isBothPinch;
     }
 }
