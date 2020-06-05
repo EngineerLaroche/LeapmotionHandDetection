@@ -30,7 +30,6 @@ public class GestureMediator : HandDataStructure
 
     //La main du geste détecté
     public static HandsE handDetected = HandsE.inconnu;
-    //private bool soundPlayed = true;
 
     
     /*****************************************************
@@ -46,14 +45,12 @@ public class GestureMediator : HandDataStructure
         bool isDetected = IsDetectedGesture();
         if (isGestureDetected != isDetected)
         {
-            //soundPlayed = false;
             isGestureDetected = isDetected;
             gestureDetectedType = isDetected ? DetectedGestureName() : "";
             handDetected = isDetected ? DetectedHand() : HandsE.inconnu;
 
             PlaySoundOnGesture();
         }
-
         return isDetected;
     }
 

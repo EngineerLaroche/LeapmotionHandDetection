@@ -84,6 +84,7 @@ public class ClapGesture : GestureMediator
     {
         if (isDetected)
         {
+            SystemUIController.GetInstance().SetDisplayTime(1f);
             SystemUIController.GetInstance().AddGesture("Taper des mains");
         }
     }

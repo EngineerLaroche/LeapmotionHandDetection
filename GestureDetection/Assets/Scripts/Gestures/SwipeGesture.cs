@@ -130,7 +130,9 @@ public class SwipeGesture : GestureMediator
     {
         if (isDetected)
         {
+            SystemUIController.GetInstance().SetDisplayTime(1f);
             SystemUIController.GetInstance().AddGesture("Main " + hand.ToString() + " glisse vers: " + swipeDirection);
+            
         }
     }
 
@@ -174,7 +176,7 @@ public class SwipeGesture : GestureMediator
     *****************************************************/
     public override string DetectedGestureName()
     {
-        return "Swipe main " + hand.ToString() + " vers --> " + swipeDirection;
+        return "Main " + hand.ToString() + " glisse vers: " + swipeDirection;
     }
 
 }

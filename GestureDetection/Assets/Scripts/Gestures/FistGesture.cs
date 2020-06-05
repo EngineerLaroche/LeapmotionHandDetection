@@ -12,12 +12,22 @@ using Leap.Unity.Interaction.Examples;
  *****************************************************/
 public class FistGesture : GestureMediator
 {
+    //Instance de la classe
+    private static FistGesture instance = null;
+
     // La main qui effectuer le geste
     public HandsE hand = HandsE.droite;
 
     // Tolerance de détection du geste en %
     [Range(0.0f, 1.0f)]
     public float tolerance = 0.8f;
+    private bool isFisting = false;
+
+
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+    }
 
     /*****************************************************
     * DETECTED FIST GESTURE
@@ -30,7 +40,7 @@ public class FistGesture : GestureMediator
     *****************************************************/
     public override bool IsDetectedGesture()
     {
-        bool isFisting = false;
+        isFisting = false;
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
             DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
@@ -66,5 +76,21 @@ public class FistGesture : GestureMediator
     public override string DetectedGestureName()
     {
         return "Poing " + hand.ToString();
+    }
+
+    /*****************************************************
+    * GET CLASS INSTANCE
+    *
+    * INFO:    Retourne l'instance de cette classe.
+    *
+    *****************************************************/
+    public static FistGesture GetInstance()
+    {
+        return instance;
+    }
+
+    public bool IsFisting()
+    {
+        return isFisting;
     }
 }

@@ -26,11 +26,9 @@ public class MoveController : HandDataStructure
 
     //Hand
     [Header("Move player with hand")]
-    [Space(10)]
+    [Space(5)]
     [ConditionalHide("allowMove")]
     public HandsE hand = HandsE.gauche;
-    [ConditionalHide("allowMove")]
-    public bool stayInRadius = false;
     [Space(10)]
     [ConditionalHide("allowMove")]
     public bool moveInDepth = true;
@@ -38,15 +36,19 @@ public class MoveController : HandDataStructure
     public bool moveHorizontal = true;
     [ConditionalHide("allowMove")]
     public bool moveVertical = false;
+    [Space(10)]
+    [ConditionalHide("allowMove")]
+    public bool stayInRadius = false;
+    
 
     //Keyboard
     [Header("Move player with keyboard")]
-    [Space(10)]
+    [Space(5)]
     [ConditionalHide("allowMove")]
     public float maxSpeed = 5.0f;
     [ConditionalHide("allowMove")]
     public float dampingSpeed = 0.2f;
-    [Space(10)]
+    [Space(5)]
     [ConditionalHide("allowMove")]
     public KeyCode fwdKey = KeyCode.W;
     [ConditionalHide("allowMove")]

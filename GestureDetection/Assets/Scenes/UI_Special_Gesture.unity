@@ -3754,7 +3754,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551212518}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da63dc139d25fda4184c27e05c9d3545, type: 3}
   m_Name: 
@@ -3821,7 +3821,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567956817}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da63dc139d25fda4184c27e05c9d3545, type: 3}
   m_Name: 
@@ -8817,8 +8817,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -443, y: 310}
-  m_SizeDelta: {x: 190.93692, y: 145.66623}
+  m_AnchoredPosition: {x: -361, y: 311.6}
+  m_SizeDelta: {x: 354.9244, y: 142.38644}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047956353
 MonoBehaviour:
@@ -16987,10 +16987,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2127288300}
-  - component: {fileID: 2127288301}
-  - component: {fileID: 2127288302}
   - component: {fileID: 2127288303}
+  - component: {fileID: 2127288302}
   - component: {fileID: 2127288304}
+  - component: {fileID: 2127288301}
   - component: {fileID: 2127288305}
   m_Layer: 0
   m_Name: HeadMounted
@@ -17067,7 +17067,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127288299}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 582ab869dc1124c4f9d924881f2ed3e1, type: 3}
   m_Name: 
@@ -17076,10 +17076,10 @@ MonoBehaviour:
   moveType: 0
   speed: 30
   hand: 0
-  stayInRadius: 0
   moveInDepth: 1
   moveHorizontal: 1
   moveVertical: 0
+  stayInRadius: 0
   maxSpeed: 5
   dampingSpeed: 0.2
   fwdKey: 119

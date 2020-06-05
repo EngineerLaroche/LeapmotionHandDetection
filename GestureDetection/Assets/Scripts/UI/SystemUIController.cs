@@ -118,8 +118,8 @@ public class SystemUIController : HandDataStructure
     private SmoothedFloat smooth = new SmoothedFloat();
 
     //Display liste of detected gestures
-    float displayedTime = 0.1f;
-    List<GestureData> detectedGestureList = new List<GestureData>();
+    private float displayedTime = 0.01f;
+    private List<GestureData> detectedGestureList = new List<GestureData>();
 
 
     /*****************************************************
@@ -278,31 +278,17 @@ public class SystemUIController : HandDataStructure
         //Recupere le type de geste détecté
         string gesture = GestureMediator.GetGestureType();
 
-        //Si le geste détecté pointe vers la possibilité que ce soit un Swipe
-        if (gesture.Contains("Swipe"))
-        {
-            // Sliders de type swipe de la main gauche
-            if (DetectionController.GetInstance().IsHandDetected(HandsE.gauche) &&
-                GestureMediator.GetDetectedHand() == HandsE.gauche)
-            {
-                // Timer des sliders de type Swipe de la main gauche
-                if (gesture.Contains("gauche")) { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[0])); }
-                if (gesture.Contains("droite")) { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[1])); }
-                if (gesture.Contains("haut")) { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[2])); }
-                if (gesture.Contains("bas")) { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[3])); }
-            }
+        // Glissements de la main gauche
+        if (gesture == "Main gauche glisse vers: gauche") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[0])); }
+        if (gesture == "Main gauche glisse vers: droite") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[1])); }
+        if (gesture == "Main gauche glisse vers: haut") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[2])); }
+        if (gesture == "Main gauche glisse vers: bas") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[3])); }
 
-            // Sliders de type swipe de la main droite
-            if (DetectionController.GetInstance().IsHandDetected(HandsE.droite) &&
-                GestureMediator.GetDetectedHand() == HandsE.droite)
-            {
-                // Timer des sliders de type Swipe de la main droite
-                if (gesture.Contains("gauche")) { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[0])); }
-                if (gesture.Contains("droite")) { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[1])); }
-                if (gesture.Contains("haut")) { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[2])); }
-                if (gesture.Contains("bas")) { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[3])); }
-            }
-        }
+        // Glissements de la main droite
+        if (gesture == "Main droite glisse vers: gauche") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[0])); }
+        if (gesture == "Main droite glisse vers: droite") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[1])); }
+        if (gesture == "Main droite glisse vers: haut") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[2])); }
+        if (gesture == "Main droite glisse vers: bas") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[3])); }
     }
 
     /*****************************************************
@@ -460,6 +446,8 @@ public class SystemUIController : HandDataStructure
      *****************************************************/
     private void UpdateRaycastDistance()
     {
+        //*** TO OPTIMIZE ***
+
         if (SelectionController.GetInstance() != null)
         {
             if (DetectionController.GetInstance().IsHandDetected(SelectionController.GetInstance().GetHand()))
@@ -483,8 +471,11 @@ public class SystemUIController : HandDataStructure
      *          defaut selon la main.
      *
      *****************************************************/
-    private void ResetUIElements(bool leftHandDetected, bool rightHandDetected)
+    private void ResetUIElements()
     {
+        bool leftHandDetected = DetectionController.GetInstance().IsHandDetected(HandsE.gauche);
+        bool rightHandDetected = DetectionController.GetInstance().IsHandDetected(HandsE.droite);
+
         // Reset les objets UI si la main gauche n'es pas détectée
         if (!leftHandDetected)
         {
@@ -542,23 +533,30 @@ public class SystemUIController : HandDataStructure
         {
             GestureData data = detectedGestureList[i];
             message += data.gesture + "\n";
-            
+
             float time = data.time;
             time -= Time.deltaTime;
 
             //Lorsque le temps est écoulé
-            if (time <= 0.0f) { removeList.Add(data); }          
+            if (time <= 0.0f) { removeList.Add(data); }
             data.time = time;
             detectedGestureList[i] = data;
         }
         // Affiche les gestes détectés
-        gestureLabel.text = message; 
+        gestureLabel.text = message;
 
         //Retire le geste lorsque son temps d'affichage est écoulé
         foreach (GestureData data in removeList)
         {
             detectedGestureList.Remove(data);
         }
+
+        displayedTime = 0.01f;
+    }
+
+    public void SetDisplayTime(float displayedTime)
+    {
+        this.displayedTime = displayedTime;
     }
 
     /*****************************************************
@@ -590,8 +588,7 @@ public class SystemUIController : HandDataStructure
         }
 
         //Remet les éléments du UI à l'état par defaut si la main n'est pas détectée
-        ResetUIElements(DetectionController.GetInstance().IsHandDetected(HandsE.gauche),
-            DetectionController.GetInstance().IsHandDetected(HandsE.droite));
+        ResetUIElements();
     }
 
     /*****************************************************
@@ -619,9 +616,9 @@ public class GestureData
     public string gesture;
     public float time;
 
-    public GestureData(string _gesture, float time)
+    public GestureData(string gesture, float time)
     {
-        this.gesture = _gesture;
+        this.gesture = gesture;
         this.time = time;
     }
 }

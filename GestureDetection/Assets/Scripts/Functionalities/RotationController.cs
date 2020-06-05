@@ -160,7 +160,7 @@ public class RotationController : HandDataStructure
             {
                 //Le type de Swipe effectué (gauche, droite, haut, bas)
                 swipeType = GestureMediator.GetGestureType();
-                if (swipeType.Contains("Swipe"))
+                if (swipeType.Contains("glisse"))
                 {
                    
                     foreach (SelectedObject objectToRotate in objectsToRotateList)
