@@ -35,7 +35,8 @@ public class PinchGesture : GestureMediator
         {
             //Valide si la tolerance est respectée et évite la confusion avec double pincement et le poing
             isPinching = DetectionController.GetInstance().GetHand(hand).IsHandPinching(tolerance) &&
-                            !BothPinchGesture.GetInstance().IsBothPinching() && !FistGesture.GetInstance().IsFisting();
+                            !BothPinchGesture.GetInstance().IsBothPinching() && !FistGesture.GetInstance().IsFisting() &&
+                            !OneFingerGesture.GetInstance().IsPointing();
         }
         DisplayDectedGesture(isPinching);
         return isPinching;

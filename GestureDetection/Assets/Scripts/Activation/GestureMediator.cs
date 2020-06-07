@@ -49,7 +49,7 @@ public class GestureMediator : HandDataStructure
             gestureDetectedType = isDetected ? DetectedGestureName() : "";
             handDetected = isDetected ? DetectedHand() : HandsE.inconnu;
 
-            PlaySoundOnGesture();
+            //PlaySoundOnGesture();
         }
         return isDetected;
     }

@@ -166,7 +166,7 @@ partial class DetectionController : HandDataStructure
             FingersE fingersE = FingersE.pouce + i;
             if (leftFingerCollisions.ContainsKey(fingersE))
             {
-                leftFingerCollisions[fingersE].transform.position = 
+                leftFingerCollisions[fingersE].transform.position =
                     _handController.GetFinger(fingersE).GetFingertipPosition();
                 leftFingerCollisions[fingersE].SetActive(true);
             }
@@ -207,19 +207,15 @@ partial class DetectionController : HandDataStructure
 
             // Initialise les mains détectées par le LeapMotion
             foreach (Hand hand in frame.Hands) { UpdateHandState(hand); }
-
-            if (SelectionController.GetInstance() != null)
-            {
-                //Demarre le raycast et la selection d'objet 3D
-                SelectionController.GetInstance().InitiateRaycast();
-            }
+            //Demarre le raycast et la selection d'objet 3D
+            SelectionController.GetInstance().InitiateRaycast();
         }
         else
         {
             isLeftHandVisible = isRightHandVisible = false;
 
             //Si la main du raycast n'est plus détecté, on reset une fois le highlight des objets
-            if (!isObjectsMaterialCleared && SelectionController.GetInstance() != null)
+            if (!isObjectsMaterialCleared)
             {
                 SelectionController.GetInstance().ClearTargetedObjects();
                 isObjectsMaterialCleared = true;

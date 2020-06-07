@@ -176,7 +176,7 @@ public class SwipeGesture : GestureMediator
     *****************************************************/
     public override string DetectedGestureName()
     {
-        return "Main " + hand.ToString() + " glisse vers: " + swipeDirection;
+        return "Swipe " + swipeDirection;
     }
 
 }

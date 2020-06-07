@@ -22,15 +22,17 @@ namespace creepycat.scifikitvol3 {
 		
 		// Update is called once per frame
 		void Update () {
-			if (World == true) {
+			if (World == true) 
+			{
 				transform.Rotate(TurnX * Time.deltaTime,TurnY * Time.deltaTime,TurnZ * Time.deltaTime, Space.World);
 				transform.Translate(MoveX * Time.deltaTime, MoveY * Time.deltaTime, MoveZ * Time.deltaTime, Space.World);
-			}else{
+			}
+			else
+			{
 				transform.Rotate(TurnX * Time.deltaTime,TurnY * Time.deltaTime,TurnZ * Time.deltaTime, Space.Self);
 				transform.Translate(MoveX * Time.deltaTime, MoveY * Time.deltaTime, MoveZ * Time.deltaTime, Space.Self);
 			}
 		}
-
 	}
 
 }

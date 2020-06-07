@@ -53,8 +53,8 @@ public class SelectedObject : MonoBehaviour
         initialPosition = _transform.position;
         initialScale = _transform.localScale;
 
-        if(_transform.gameObject.GetComponent<Rigidbody>() != null)
-            shouldHaveGravity = _transform.gameObject.GetComponent<Rigidbody>().useGravity;
+        //if(_transform.gameObject.GetComponent<Rigidbody>() != null)
+            //shouldHaveGravity = _transform.gameObject.GetComponent<Rigidbody>().useGravity;
     }
 
     /*****************************************************

@@ -74,6 +74,23 @@ public class HandDataStructure : MonoBehaviour
     }
 
     /*****************************************************
+    * ROTATION TYPE
+    *
+    * ENUM (3):    Le type de rotation de la main.
+    * 
+    *****************************************************/
+    public enum RotationE { yaw, pitch, roll }
+
+
+    /*****************************************************
+    * LOOK TYPE
+    *
+    * ENUM :    Le type de rotation de la camera (vue).
+    * 
+    *****************************************************/
+    public enum LookE { FingersPointing, HandPos, Raycast, YawPitch, Mouse, None }
+
+    /*****************************************************
     * DIRECTIONS
     *
     * ENUM (6):    Les différents sens que la main pourrait

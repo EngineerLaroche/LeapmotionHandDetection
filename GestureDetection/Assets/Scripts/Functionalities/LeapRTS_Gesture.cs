@@ -38,11 +38,10 @@ namespace Leap.Unity
         private bool _showGUI = false;
 
         //private Transform _anchor;
-        private float _defaultNearClip;
+        //private float _defaultNearClip;
 
         //La liste des objets sélectionnés avec le raycast
         private List<SelectedObject> selectedObjects;
-
         private bool disableGravity = false;
 
         void Start()
@@ -86,22 +85,22 @@ namespace Leap.Unity
                         if (_pinchDetectorA != null && _pinchDetectorB != null &&
                             (_pinchDetectorA.IsActive || _pinchDetectorB.IsActive))
                         {
-                            if (disableGravity)
+                            /*if (disableGravity)
                             {
                                 GravityController.GetInstance().ToAllowGravity(false, true);
                                 disableGravity = false;
-                            }  
+                            }*/  
                         }
 
                         //Si aucun des deux Pinch est actif
                         if (_pinchDetectorA != null && _pinchDetectorB != null &&
                             (!_pinchDetectorA.IsActive && !_pinchDetectorB.IsActive))
                         {
-                            if (!disableGravity)
+                            /*if (!disableGravity)
                             {
-                                GravityController.GetInstance().ToAllowGravity(true, false);
+                                //GravityController.GetInstance().ToAllowGravity(true, false);
                                 disableGravity = true;
-                            }
+                            }*/
                         }
 
                         //Pinch main gauche et droite
@@ -127,6 +126,7 @@ namespace Leap.Unity
             }
         }
 
+        //Menu des parametres de la manipulation libre
         void OnGUI()
         {
             if (_showGUI)
@@ -139,6 +139,7 @@ namespace Leap.Unity
             }
         }
 
+        //Rotation d'un objet 3D
         private void doRotationMethodGUI(ref RotationMethod rotationMethod)
         {
             GUILayout.BeginHorizontal();
@@ -166,6 +167,7 @@ namespace Leap.Unity
             GUILayout.EndHorizontal();
         }
 
+        //Usage des deux mains
         private void transformDoubleAnchor(SelectedObject _selectedObject)
         {
             _selectedObject.Anchor.position = (_pinchDetectorA.Position + _pinchDetectorB.Position) / 2.0f;
@@ -192,6 +194,7 @@ namespace Leap.Unity
             }
         }
 
+        //Usage d'une main
         private void transformSingleAnchor(PinchDetector singlePinch, SelectedObject _selectedObject)
         {
             _selectedObject.Anchor.position = singlePinch.Position;

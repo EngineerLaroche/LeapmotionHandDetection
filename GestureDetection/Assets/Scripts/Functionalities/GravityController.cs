@@ -31,7 +31,7 @@ public class GravityController : MonoBehaviour
     {
         //Initialise l'instance de cette classe
         if (instance == null) { instance = this; }
-        else { Destroy(this); }
+        //else { Destroy(this); }
     }
 
     /*****************************************************

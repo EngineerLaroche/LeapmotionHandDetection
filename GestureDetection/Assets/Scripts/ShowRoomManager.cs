@@ -9,8 +9,8 @@ public class ShowRoomManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        showRoomSam = GameObject.Find("ShowRoomImplementation").transform.GetChild(0).gameObject;
-        showRoomAlex = GameObject.Find("ShowRoomImplementation").transform.GetChild(1).gameObject;
+        //showRoomSam = GameObject.Find("ShowRoomImplementation").transform.GetChild(0).gameObject;
+        //showRoomAlex = GameObject.Find("ShowRoomImplementation").transform.GetChild(1).gameObject;
     }
 
     // Update is called once per frame
@@ -18,8 +18,8 @@ public class ShowRoomManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            showRoomAlex.SetActive(!showRoomAlex.activeInHierarchy);
-            showRoomSam.SetActive(!showRoomSam.activeInHierarchy);
+            //showRoomAlex.SetActive(!showRoomAlex.activeInHierarchy);
+            //showRoomSam.SetActive(!showRoomSam.activeInHierarchy);
         }
     }
 }

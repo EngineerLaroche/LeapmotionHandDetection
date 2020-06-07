@@ -12,10 +12,20 @@ using UnityEngine.UI;
  *****************************************************/
 public class OneFingerGesture : GestureMediator
 {
+    //Instance de la classe
+    private static OneFingerGesture instance = null;
+
     // La main et le doigt qui effectue le geste
     public HandsE hand = HandsE.droite;
     public FingersE finger = FingersE.index;
+    private bool onlyThisFingerOpened = false;
 
+
+    //Initialise l'instance de la classe (Singleton)
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+    }
 
     /*****************************************************
     * DETECTED ONLY INDEX GESTURE
@@ -29,7 +39,7 @@ public class OneFingerGesture : GestureMediator
         if (!DetectionController.GetInstance().IsHandDetected(hand)) { return false; }
 
         DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
-        bool onlyThisFingerOpened = false;
+        onlyThisFingerOpened = false;
 
         //Pour tous les doigts de la main, partant de l'auriculaire
         for (int i = 0; i < (int)FingersE.auriculaire; i++)
@@ -73,5 +83,21 @@ public class OneFingerGesture : GestureMediator
     public override string DetectedGestureName()
     {
         return finger.ToString() + " " + hand.ToString();
+    }
+
+    /*****************************************************
+    * GET CLASS INSTANCE
+    *
+    * INFO:    Retourne l'instance de cette classe.
+    *
+    *****************************************************/
+    public static OneFingerGesture GetInstance()
+    {
+        return instance;
+    }
+
+    public bool IsPointing()
+    {
+        return onlyThisFingerOpened;
     }
 }

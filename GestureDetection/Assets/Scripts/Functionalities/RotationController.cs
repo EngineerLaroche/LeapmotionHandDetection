@@ -23,7 +23,7 @@ using Leap;
 public class RotationController : HandDataStructure
 {
     //Objet 3D à rotationner
-    public float amplifyRotation = 3f;
+    public float amplifyRotation = 2f;
     public bool isRotationX = true;
     public bool isRotationY = true;
 
@@ -40,6 +40,7 @@ public class RotationController : HandDataStructure
     //Activation de la rotation Thumb & Index
     [Header("Activate Index/Thumb Rotation")]
     public bool isFingerRotation = false;
+    public float amplifyFingerRotation = 3f;
 
     //Instance de la classe
     private static RotationController instance = null;
@@ -130,7 +131,7 @@ public class RotationController : HandDataStructure
                     if (isIndexOpen && isRotationY) { newTorque.x = torque.y; }
 
                     //Applique la rotation en fonction de la force
-                    Vector3 rotationSpeed = newTorque * amplifyRotation;
+                    Vector3 rotationSpeed = newTorque * amplifyFingerRotation;
                     Vector3 dynamicRotation = objectToRotate.TransformObject.worldToLocalMatrix * rotationSpeed;
                     objectToRotate.TransformObject.Rotate(dynamicRotation);
                 }
@@ -160,9 +161,8 @@ public class RotationController : HandDataStructure
             {
                 //Le type de Swipe effectué (gauche, droite, haut, bas)
                 swipeType = GestureMediator.GetGestureType();
-                if (swipeType.Contains("glisse"))
+                if (swipeType.Contains("Swipe"))
                 {
-                   
                     foreach (SelectedObject objectToRotate in objectsToRotateList)
                     {
                         detectedHand = DetectionController.GetInstance().GetHand(GestureMediator.GetDetectedHand());
@@ -315,7 +315,7 @@ public class RotationController : HandDataStructure
                 foreach (SelectedObject objectToRotate in objectsToRotateList)
                 {
                     //Applique la rotation en fonction de la force
-                    Vector3 rotationSpeed = stopPosition * amplifyRotation;
+                    Vector3 rotationSpeed = stopPosition * amplifyFingerRotation;
                     Vector3 dynamicRotation = objectToRotate.TransformObject.worldToLocalMatrix * rotationSpeed;
                     objectToRotate.TransformObject.Rotate(dynamicRotation);
 

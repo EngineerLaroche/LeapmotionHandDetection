@@ -22,7 +22,7 @@ public class MoveController : HandDataStructure
     public bool allowMove = true;
     public MoveE moveType = MoveE.HandPosition;
     [Range(0f, 100f)]
-    public float speed = 50.0f;
+    public float speed = 40.0f;
 
     //Hand
     [Header("Move player with hand")]
@@ -40,7 +40,6 @@ public class MoveController : HandDataStructure
     [ConditionalHide("allowMove")]
     public bool stayInRadius = false;
     
-
     //Keyboard
     [Header("Move player with keyboard")]
     [Space(5)]
@@ -65,6 +64,7 @@ public class MoveController : HandDataStructure
     private bool isMoving = false;
     private bool isMovingPaused = true;
     private CharacterController controller = null;
+
 
     /*****************************************************
     * START
@@ -92,6 +92,26 @@ public class MoveController : HandDataStructure
                     .GetInstance()
                     .GetHand(hand)
                     .GetRelativeHandPosition();
+        }
+        return Vector3.zero;
+    }
+
+    /*****************************************************
+    * GET HAND AXIS
+    *
+    * INFO:    Retourne l'axe (vecteur) que prend les doigts 
+    *          de la main pour rendre le déplacement plus 
+    *          dynamique.
+    *          
+    *****************************************************/
+    public Vector3 GetHandAxis()
+    {
+        if (DetectionController.GetInstance().IsHandDetected(hand))
+        {
+            return DetectionController
+                .GetInstance()
+                .GetHand(hand)
+                .GetHandAxis(HandAxisE.doigt);
         }
         return Vector3.zero;
     }
@@ -154,14 +174,14 @@ public class MoveController : HandDataStructure
         if (isMoving && isHandSet && !isMovingPaused && controller != null && 
             DetectionController.GetInstance().IsHandDetected(hand))
         {
-            //La position actuelle de la main
+            //La position actuelle de la main           
             Vector3 actualPosition = GetHandPosition();
             Vector3 distance = actualPosition - startHandPosition;
             float movingSpeed;
 
             //Pour le deplacement libre dans l'espace
-            if (!stayInRadius) { movingSpeed = speed * Time.deltaTime; } 
-            else { movingSpeed = speed; }
+            if (stayInRadius) { movingSpeed = speed; } 
+            else { movingSpeed = speed * Time.deltaTime; }
 
             //Déplacement horizontal (X) activé
             if (moveHorizontal){ controller.Move(transform.right * distance.x * movingSpeed); }
@@ -215,13 +235,13 @@ public class MoveController : HandDataStructure
     *****************************************************/
     private void MoveWithKeyboard()
     {
-        //Left or right
-        if (Input.GetKey(rightKey)) { speedX += speed * Time.deltaTime; }
-        else if (Input.GetKey(leftKey)) { speedX -= speed * Time.deltaTime; }
-
         //Forward or backward
-        if (Input.GetKey(backKey)) { speedZ -= speed * Time.deltaTime; }
-        else if (Input.GetKey(fwdKey)) { speedZ += speed * Time.deltaTime; }
+        if (Input.GetKey(fwdKey)) { speedX += speed * Time.deltaTime; }
+        else if (Input.GetKey(backKey)) { speedX -= speed * Time.deltaTime; }
+
+        //Left or right
+        if (Input.GetKey(leftKey)) { speedZ -= speed * Time.deltaTime; }
+        else if (Input.GetKey(rightKey)) { speedZ += speed * Time.deltaTime; }
 
         speedX = Mathf.Lerp(speedX, 0, dampingSpeed * Time.deltaTime);
         speedZ = Mathf.Lerp(speedZ, 0, dampingSpeed * Time.deltaTime);

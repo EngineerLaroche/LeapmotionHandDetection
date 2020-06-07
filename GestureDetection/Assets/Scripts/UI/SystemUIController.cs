@@ -24,8 +24,11 @@ public class SystemUIController : HandDataStructure
     //Instance de la classe
     private static SystemUIController instance = null;
 
-    //Press key to display system UI
-    public KeyCode keyDisplayUI = KeyCode.U;
+    // Pour afficher ou non le UI
+    public bool isDisplayed = false;
+
+    //Press this key to display or hide system UI
+    public KeyCode keyToggleUI = KeyCode.M;
 
     //Objet qui contient tous les elements du UI (gauche, droite et haut) 
     [Header("Displacement UI objects")]
@@ -107,9 +110,6 @@ public class SystemUIController : HandDataStructure
     [Header("Raycast Distance label")]
     public TextMeshProUGUI raycastLabel;
 
-    // Pour afficher ou non le UI
-    bool isDisplayed = true;
-
     // *** Tolerance du Fist & Pinch temporairement entrée manuellement ***
     private readonly float tolerance = 0.80f;
 
@@ -118,7 +118,7 @@ public class SystemUIController : HandDataStructure
     private SmoothedFloat smooth = new SmoothedFloat();
 
     //Display liste of detected gestures
-    private float displayedTime = 0.01f;
+    private float displayedTime = 0f;
     private List<GestureData> detectedGestureList = new List<GestureData>();
 
 
@@ -135,7 +135,12 @@ public class SystemUIController : HandDataStructure
         //Initialise l'instance de cette classe
         if (instance == null) { instance = this; }
 
-        // Instance Leap
+        //Affiche ou non le UI dès le depart
+        leftObjectsUI.SetActive(isDisplayed);
+        rightObjectsUI.SetActive(isDisplayed);
+        topObjectsUI.SetActive(isDisplayed);
+
+        // Instance Leap pour afficher le FPS en temps reel
         if (leapProvider == null) { leapProvider = Hands.Provider; }
         smooth.delay = 0.3f;
         smooth.reset = true;
@@ -277,18 +282,25 @@ public class SystemUIController : HandDataStructure
     {
         //Recupere le type de geste détecté
         string gesture = GestureMediator.GetGestureType();
+        HandsE hand = GestureMediator.GetDetectedHand();
 
         // Glissements de la main gauche
-        if (gesture == "Main gauche glisse vers: gauche") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[0])); }
-        if (gesture == "Main gauche glisse vers: droite") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[1])); }
-        if (gesture == "Main gauche glisse vers: haut") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[2])); }
-        if (gesture == "Main gauche glisse vers: bas") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[3])); }
+        if (hand == HandsE.gauche && gesture.Contains("Swipe"))
+        {
+            if (gesture == "Swipe gauche") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[0])); }
+            if (gesture == "Swipe droite") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[1])); }
+            if (gesture == "Swipe haut") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[2])); }
+            if (gesture == "Swipe bas") { StartCoroutine(SwipeSliderTimer(leftHandSwipeSliders[3])); }
+        }
 
         // Glissements de la main droite
-        if (gesture == "Main droite glisse vers: gauche") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[0])); }
-        if (gesture == "Main droite glisse vers: droite") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[1])); }
-        if (gesture == "Main droite glisse vers: haut") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[2])); }
-        if (gesture == "Main droite glisse vers: bas") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[3])); }
+        if (hand == HandsE.droite && gesture.Contains("Swipe"))
+        {
+            if (gesture == "Swipe gauche") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[0])); }
+            if (gesture == "Swipe droite") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[1])); }
+            if (gesture == "Swipe haut") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[2])); }
+            if (gesture == "Swipe bas") { StartCoroutine(SwipeSliderTimer(rightHandSwipeSliders[3])); }
+        }
     }
 
     /*****************************************************
@@ -417,27 +429,6 @@ public class SystemUIController : HandDataStructure
     }
 
     /*****************************************************
-     * DISPLAY OR HIDE UI
-     *
-     * INFO:    Appuyer sur 'D' (clavier) permet d'afficher 
-     *          ou cacher le UI qui donne en temps reel de 
-     *          l'information sur le systeme et la détection 
-     *          des gestes.
-     *
-     *****************************************************/
-    private void DisplayHideUI()
-    {
-        if (Input.GetKeyDown(keyDisplayUI))
-        {
-            //Affiche ou cache les parties du UI
-            leftObjectsUI.SetActive(isDisplayed ? false : true);
-            rightObjectsUI.SetActive(isDisplayed ? false : true);
-            topObjectsUI.SetActive(isDisplayed ? false : true);
-            isDisplayed = isDisplayed ? false : true;
-        }
-    }
-
-    /*****************************************************
      * UPDATE RAYCAST DISTANCE
      *
      * INFO:    Affiche la distance entre le bout du doigt
@@ -550,45 +541,22 @@ public class SystemUIController : HandDataStructure
         {
             detectedGestureList.Remove(data);
         }
-
-        displayedTime = 0.01f;
-    }
-
-    public void SetDisplayTime(float displayedTime)
-    {
-        this.displayedTime = displayedTime;
+        displayedTime = 0f;
     }
 
     /*****************************************************
-    * UPDATE
+    * SET DISPLAY TIME
     *
-    * INFO:    Maintient a jour tous les objets du UI en 
-    *          appelant les fonctions séparées en type d'objets.
-    *          C'est aussi ici qu'opn détecte si l'utilisateur
-    *          a appuyé sur 'D' pour afficher ou chacher le UI.
+    * INFO:    Modifie le temps que sont affichés les
+    *          gestes détectés. Surtout utilisé par les
+    *          gestes de type Swipe ou Clap car ils ne
+    *          sont pas des gestes qui peuvent être
+    *          maintenu par l'utilisateur. 
     *
     *****************************************************/
-    void Update()
+    public void SetDisplayTime(float displayedTime)
     {
-        // Affiche ou chache le UI en appuyant sur 'D'
-        DisplayHideUI();
-        UpdateDetectedGestures();
-
-        // Met a jour les éléments du UI seulement lorsque le UI est activé.
-        if (isDisplayed)
-        {
-            //UpdateGestureLabel();
-            UpdateFPSLabel();
-            UpdateFistPinchSliders();
-            UpdateHandFingertipImage();
-            UpdateSwipeSliders();
-            UpdateUserCoord();
-            UpdateRaycastDistance();
-            UpdateClapSliders();
-        }
-
-        //Remet les éléments du UI à l'état par defaut si la main n'est pas détectée
-        ResetUIElements();
+        this.displayedTime = displayedTime;
     }
 
     /*****************************************************
@@ -600,6 +568,46 @@ public class SystemUIController : HandDataStructure
     public static SystemUIController GetInstance()
     {
         return instance;
+    }
+
+    /*****************************************************
+    * UPDATE
+    *
+    * INFO:    Appuyer sur 'M' (clavier) permet d'afficher 
+    *          ou cacher le UI qui donne en temps reel de 
+    *          l'information sur le systeme et la détection 
+    *          des gestes.
+    * 
+    *          Maintient a jour tous les objets du UI en 
+    *          appelant les fonctions séparées en type d'objets.
+    *
+    *****************************************************/
+    void Update()
+    {
+        // Affiche ou chache le UI en appuyant sur 'M' 
+        if (Input.GetKeyDown(keyToggleUI))
+        {
+            isDisplayed = isDisplayed ? false : true;
+            leftObjectsUI.SetActive(isDisplayed);
+            rightObjectsUI.SetActive(isDisplayed);
+            topObjectsUI.SetActive(isDisplayed);
+        }
+
+        // Met a jour les éléments du UI seulement lorsque le UI est activé.
+        if (isDisplayed)
+        {
+            UpdateDetectedGestures();
+            UpdateFPSLabel();
+            UpdateFistPinchSliders();
+            UpdateHandFingertipImage();
+            UpdateSwipeSliders();
+            UpdateUserCoord();
+            UpdateRaycastDistance();
+            UpdateClapSliders();
+        }
+
+        //Remet les éléments du UI à l'état par defaut si la main n'est pas détectée
+        ResetUIElements();
     }
 }
 

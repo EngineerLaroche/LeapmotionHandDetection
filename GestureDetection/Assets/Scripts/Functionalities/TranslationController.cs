@@ -69,7 +69,7 @@ public class TranslationController : HandDataStructure
         isTranslating = true;
 
         //Arret temporaire de la gravité de l'objet s'il en a.
-        GravityController.GetInstance().ToAllowGravity(false, true);
+        //GravityController.GetInstance().ToAllowGravity(false, true);
     }
 
     /*****************************************************
@@ -85,7 +85,7 @@ public class TranslationController : HandDataStructure
         isTranslating = false;
 
         //Retabli la gravité de l'objet s'il en avait
-        GravityController.GetInstance().ToAllowGravity(true, false);
+        //GravityController.GetInstance().ToAllowGravity(true, false);
     }
 
     /*****************************************************

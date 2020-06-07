@@ -24,6 +24,7 @@ public class FistGesture : GestureMediator
     private bool isFisting = false;
 
 
+    //Initialise l'instance de la classe (Singleton)
     private void Awake()
     {
         if (instance == null) { instance = this; }

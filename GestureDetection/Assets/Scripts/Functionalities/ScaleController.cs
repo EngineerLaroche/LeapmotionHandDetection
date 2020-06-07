@@ -73,7 +73,7 @@ public class ScaleController : HandDataStructure
     {
         lastDistance = GetDistance();
         isScaling = true;
-        SoundController.GetInstance().PlaySound(AudioE.grab);
+        //SoundController.GetInstance().PlaySound(AudioE.grab);
     }
 
     /*****************************************************

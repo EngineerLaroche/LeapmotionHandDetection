@@ -136,25 +136,6 @@ partial class DetectionController
         }
 
         /*****************************************************
-        * IS OTHER FINGER CLOSED
-        *
-        * INFO:    Retourne vrai si le doigt passé en parametre
-        *          est ouvert et que les autres sont fermés.
-        * 
-        *****************************************************/
-        public bool IsOnlyThisFingerOpened(FingersE _finger)
-        {
-            int fingerID = (int)_finger;
-            bool onlyThisFingerOpened = false;
-            foreach (Finger finger in leapHand.Fingers)
-            {
-                if ((int)finger.Type == fingerID) { onlyThisFingerOpened = finger.IsExtended; }
-                else { if (finger.IsExtended) { onlyThisFingerOpened = false; } }
-            }
-            return onlyThisFingerOpened;
-        }
-
-        /*****************************************************
         * IS ALL FINGERS CLOSED
         *
         * INFO:    Retourne vrai si tous les doigts de la main
@@ -187,6 +168,43 @@ partial class DetectionController
                 default: break;
             }
             return Vector3.zero;
+        }
+
+        /*****************************************************
+        * GET HAND ROTATION
+        *
+        * INFO:    Retourne l'angle de rotation Yaw, Pitch
+        *          ou Roll de la main.
+        * 
+        *****************************************************/
+        public float GetHandRotation(RotationE _rotation)
+        {
+            switch (_rotation)
+            {
+                case RotationE.yaw: return leapHand.Direction.Yaw;
+                case RotationE.pitch: return leapHand.Direction.Pitch;
+                case RotationE.roll: return leapHand.PalmNormal.Roll;
+                default: break;
+            }
+            return 0f;
+        }
+
+        /*****************************************************
+        * IS INDEX OPENED
+        *
+        * INFO:    Retourne vrai si le doigt passé en parametre
+        *          est ouvert et que les autres sont fermés.
+        * 
+        *****************************************************/
+        public bool IsIndexOpened()
+        {
+            bool onlyThisFingerOpened = false;
+            foreach (Finger finger in leapHand.Fingers)
+            {
+                if ((int)finger.Type == (int)FingersE.index) { onlyThisFingerOpened = finger.IsExtended; }
+                else { if (finger.IsExtended) { onlyThisFingerOpened = false; } }
+            }
+            return onlyThisFingerOpened;
         }
 
         /*****************************************************

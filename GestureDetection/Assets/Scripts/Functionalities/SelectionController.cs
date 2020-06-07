@@ -74,6 +74,7 @@ public class SelectionController : HandDataStructure
     private Coroutine coroutine;
     private bool audioPlayed = false;
 
+
     /*****************************************************
     * AWAKE
     *
@@ -84,7 +85,7 @@ public class SelectionController : HandDataStructure
     {
         //Initialise l'instance de cette classe
         if (instance == null) { instance = this; }
-        else { Destroy(this); }
+        //else { Destroy(this); }
 
         //Liste des objets sélectionnés par raycast
         selectedObjectsList = new List<SelectedObject>();
@@ -177,20 +178,20 @@ public class SelectionController : HandDataStructure
         //Si la main du raycast est détecté
         if (DetectionController.GetInstance().IsHandDetected(raycastHand))
         {
+            handController = DetectionController.GetInstance().GetHand(raycastHand);
+
             //Si le doigt du raycast est le seul d'ouvert et le Palm UI n'est pas affiché
-            if (DetectionController.GetInstance().GetHand(raycastHand).IsOnlyThisFingerOpened(raycastFinger) &&
-                !PalmUIController.GetInstance().IsPalmUIOpen())
+            if (handController.IsIndexOpened() && !PalmUIController.GetInstance().IsPalmUIOpen())
             {
                 //Les controleurs de la main et doigt
-                 handController = DetectionController.GetInstance().GetHand(raycastHand);
-                 fingerController = handController.GetFinger(raycastFinger);
+                fingerController = handController.GetFinger(raycastFinger);
 
                 //Trace la ligne rouge dans le sens que pointe le doigt de la main 3D
-               Debug.DrawRay(
-                    fingerController.GetFingertipPosition(),
-                    fingerController.GetFingerRay().direction,
-                    raycastColor,
-                    Time.deltaTime, true);
+                Debug.DrawRay(
+                     fingerController.GetFingertipPosition(),
+                     fingerController.GetFingerRay().direction,
+                     raycastColor,
+                     Time.deltaTime, true);
 
                 //Permet la selection d'objets 3D avec le raycast
                 SelectObjectWithRaycast(fingerController.GetFingerRay());
@@ -211,88 +212,79 @@ public class SelectionController : HandDataStructure
     *          material pour un autre. 
     *
     *****************************************************/
-    public void SelectObjectWithRaycast(Ray _ray)
+    public void SelectObjectWithRaycast(Ray ray)
     {
         RaycastHit hit;
         raycastDistance = 0f;
         isObjectsMaterialCleared = false;
 
         //Maintient le matérial des objets sélectionnés, sinon remet le materiel par defaut
-        UpdateSelectionMaterial(targetedObject);
-
+        UpdateMaterialSelection(targetedObject);
         isStillPointing = false;
 
-        //Si le le raycast entre en contact avec un objet 3D
-        if (Physics.Raycast(_ray, out hit))
+        //Si le le raycast entre en contact l'objet 3D avec le bon tag
+        if (Physics.Raycast(ray, out hit) && hit.transform.CompareTag(selectableTag))
         {
             //Recupere l'objet pointé par le raycast et la distance qui les sépare
             Transform selection = hit.transform;
             raycastDistance = hit.distance;
 
-            //Si l'objet pointé a le bon Tag
-            if (selection.CompareTag(selectableTag))
-            {
-                //Recupere l'ID de l'objet pointé par le raycast 
-                highlightObjectID = selection.GetInstanceID();
-                Renderer selectionRenderer = selection.GetComponent<Renderer>();
+            //Recupere l'ID de l'objet pointé par le raycast 
+            highlightObjectID = selection.GetInstanceID();
+            Renderer selectionRenderer = selection.GetComponent<Renderer>();
 
-                if (selectionRenderer != null)
+            if (selectionRenderer != null)
+            {
+                //Si l'utilisateur effectue un geste Tir (gun + trigger) sur l'objet
+                if (isGunActionDetected)
                 {
-                    //Si l'utilisateur effectue un geste Tir (gun + trigger) sur l'objet
-                    if (isGunActionDetected)
+                    //Si l'objet n'est pas déjà sélectionné, on l'ajoute dans la liste
+                    if (!selectedObjectsIDList.Contains(highlightObjectID))
                     {
-                        //Si l'objet n'est pas déjà sélectionné, on l'ajoute dans la liste
-                        if (!selectedObjectsIDList.Contains(highlightObjectID))
+                        SoundController.GetInstance().PlaySound(AudioE.select);
+                        selectionRenderer.material = selectedMaterial;
+                        selectedObjectsIDList.Add(highlightObjectID);
+                        selectedObjectsList.Add(new SelectedObject(selection));
+                    }
+                    else //Sinon on déselectionne simplement l'objet
+                    {
+                        SoundController.GetInstance().PlaySound(AudioE.unselect);
+                        selectionRenderer.material = defaultMaterial;
+                        selectedObjectsIDList.Remove(highlightObjectID);
+                        for (int i = 0; i < selectedObjectsList.Count; i++)
                         {
-                            SoundController.GetInstance().PlaySound(AudioE.select);
-                            selectionRenderer.material = selectedMaterial;
-                            selectedObjectsIDList.Add(highlightObjectID);
-                            selectedObjectsList.Add(new SelectedObject(selection));   
-                        }
-                        else //Sinon on déselectionne simplement l'objet
-                        {
-                            SoundController.GetInstance().PlaySound(AudioE.unselect);
-                            selectionRenderer.material = defaultMaterial;
-                            selectedObjectsIDList.Remove(highlightObjectID);
-                            for (int i = 0; i < selectedObjectsList.Count; i++)
+                            if (selectedObjectsList[i].GetID() == highlightObjectID)
                             {
-                                if (selectedObjectsList[i].GetID() == highlightObjectID)
-                                {
-                                    //Detruit l'objet et le retire de la liste
-                                    Destroy(selectedObjectsList[i]);
-                                    selectedObjectsList.RemoveAt(i);
-                                }
+                                //Detruit l'objet et le retire de la liste
+                                Destroy(selectedObjectsList[i]);
+                                selectedObjectsList.RemoveAt(i);
                             }
                         }
                     }
-                    else //Pour un objet simplement pointé par le raycast
-                    {
-                        if (selectedObjectsIDList.Contains(highlightObjectID))
-                        {
-                            isStillPointing = true;
-                            selectionRenderer.material = selectedMaterial;
-                        }
-                        else
-                        {
-                            isStillPointing = false;
-                            selectionRenderer.material = highlightMaterial;
-                        }
-                    }
                 }
-                targetedObject = selection;
+
+                //Si l'objet n'est pas dejà sélectionné, on le highlight (hover) seulement.
+                isStillPointing = selectedObjectsIDList.Contains(highlightObjectID) ? true : false;
+                if (!isStillPointing) { selectionRenderer.material = highlightMaterial; }
+
+                //Fait jouer le son seulement lors du contact
                 if (!audioPlayed)
                 {
                     SoundController.GetInstance().PlaySound(AudioE.collision);
                     audioPlayed = true;
                 }
-
             }
+            targetedObject = selection;
         }
-        else { isStillPointing = false; audioPlayed = false; }
+        else
+        {
+            isStillPointing = false;
+            audioPlayed = false;
+        }
     }
 
     /*****************************************************
-    * UPDATE SELECTION MATERIAL
+    * UPDATE MATERIAL SELECTION
     *
     * INFO:    Si un objet n'est pas pointé par le raycast,
     *          on s'assure de remettre le matériel par défaut,
@@ -300,7 +292,7 @@ public class SelectionController : HandDataStructure
     *          qui ont été sélectionnés.
     *
     *****************************************************/
-    private void UpdateSelectionMaterial(Transform _target)
+    private void UpdateMaterialSelection(Transform _target)
     {
         if (_target != null)
         {
@@ -324,7 +316,7 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * BLINK MATERIAL
     *
-    * INFO:    Si l'onjet est déjà sélectionné et qu'on
+    * INFO:    Si l'objet est déjà sélectionné et qu'on
     *          garde le raycast pointé sur l'objet, on
     *          le fait scintiller.
     *
@@ -405,10 +397,10 @@ public class SelectionController : HandDataStructure
     *          est pret a tout désélectionner.
     *
     *****************************************************/
-    private void UnselectAllObjects(bool _clear)
+    private void UnselectAllObjects(bool isClearingSelection)
     {
         //Pour deselectionner tous les objets
-        if (_clear)
+        if (isClearingSelection)
         {
             for (int i = 0; i < selectedObjectsList.Count; i++)
             {
@@ -542,6 +534,11 @@ public class SelectionController : HandDataStructure
     {
         return raycastDistance;
     }
+
+    /*public bool IsGunActionDetected()
+    {
+        return isGunActionDetected;
+    }*/
 
     /*****************************************************
     * GET CLASS INSTANCE
