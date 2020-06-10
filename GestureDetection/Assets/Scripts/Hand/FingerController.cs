@@ -80,6 +80,17 @@ partial class DetectionController
         }
 
         /*****************************************************
+        * GET LEAP FINGER
+        *
+        * INFO:   Retourne le doigt Leap
+        * 
+        *****************************************************/
+        public Finger GetLeapFinger()
+        {
+            return leapFinger;
+        }
+
+        /*****************************************************
         * GET FINGER RAY
         *
         * INFO:   Retourne une ligne a partir du bout du doigt

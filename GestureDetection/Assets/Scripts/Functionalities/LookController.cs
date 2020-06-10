@@ -1,6 +1,9 @@
 ﻿
 using UnityEngine;
+using Leap;
+using Leap.Unity;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityStandardAssets.Characters.FirstPerson;
 
 
 /*****************************************************
@@ -50,6 +53,9 @@ public class LookController : HandDataStructure
     [ConditionalHide("allowLook")]
     public Vector2 targetCharacterDirection;
 
+    public LeapServiceProvider leapServiceController;
+    //private FirstPersonController controller;
+
     //Position initiale
     private Vector3 startHandPosition;
 
@@ -61,12 +67,8 @@ public class LookController : HandDataStructure
     private bool isHandSet = false;
     private bool isLooking = false;
     private bool isLookingPaused = true;
+    private Quaternion targetRot;
 
-    //La main initialisé avec le raycast (laser)
-    //private HandsE raycastHand;
-    //private FingersE raycastFinger;
-
-    private Quaternion leapRotation;
 
     /*****************************************************
     * AWAKE
@@ -75,21 +77,16 @@ public class LookController : HandDataStructure
     *          rotation.
     *
     *****************************************************/
-    void Awake()
+    void Start()
     {
         // Set target direction to the camera's initial orientation.
         targetDirection = transform.localRotation.eulerAngles;
 
+        //controller = gameObject.GetComponent<FirstPersonController>();
+        targetRot = transform.rotation;
+
         // Set target direction for the character body to its inital state.
         if (isHeadMounted) { targetCharacterDirection = transform.localRotation.eulerAngles; }
-
-        m_CharacterTargetRot = transform.localRotation;
-        m_CameraTargetRot = transform.localRotation;
-
-        leapRotation = transform.localRotation;
-
-        //raycastHand = SelectionController.GetInstance().GetHand();
-        //raycastFinger = SelectionController.GetInstance().GetFinger();
     }
 
     /*****************************************************
@@ -125,7 +122,7 @@ public class LookController : HandDataStructure
             return DetectionController
                 .GetInstance()
                 .GetHand(hand)
-                .GetHandAxis(HandAxisE.doigt);
+                .GetAxis(HandAxisE.doigt);
         }
         return Vector3.zero;
     }
@@ -179,9 +176,14 @@ public class LookController : HandDataStructure
     {
         if (IsReadyToLook())
         {
+
             //L'axe (direction) actuel des doigts de la main
             Vector3 handAxis = GetHandAxis();
-            Vector3 deltaAxis = new Vector3(-handAxis.x, -handAxis.y);
+            //Debug.Log("handAxis:  " + handAxis.x + "   " + handAxis.y + "   " + handAxis.z);
+
+           Vector3 deltaAxis = new Vector3(-handAxis.x, -handAxis.y);
+           Debug.Log("deltaAxis:  " + deltaAxis.x + "   " + deltaAxis.y + "   " + deltaAxis.z);
+
 
             // Scale input against the sensitivity setting and multiply that against the smoothing value.
             deltaAxis = Vector3.Scale(deltaAxis, new Vector3(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
@@ -275,6 +277,8 @@ public class LookController : HandDataStructure
         // Get raw mouse input for a cleaner reading on more sensitive mice.
         Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
+        //Debug.Log("mouseDelta:  " + mouseDelta.x);
+
         // Scale input against the sensitivity setting and multiply that against the smoothing value.
         mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
 
@@ -313,121 +317,75 @@ public class LookController : HandDataStructure
         }
     }
 
-    //...................
-    //using UnityStandardAssets.Characters.FirstPerson;
-    //
-    //public FirstPersonController firstPersonController;
-    //public LeapServiceProvider leapServiceController;
-    [Space(20)]
-    public float XSensitivity = 2f;
-    public float YSensitivity = 2f;
-    public bool clampVerticalRotation = true;
-    public float MinimumX = -90F;
-    public float MaximumX = 90F;
-    public bool smooth = true;
-    public float smoothTime = 5f;
-    public bool isLockCursor = true;
-
-    private Quaternion m_CharacterTargetRot;
-    private Quaternion m_CameraTargetRot;
-    private bool m_cursorIsLocked = true;
-
-    private void TurnWithYawPitch()
+    /*****************************************************
+    * TURN WITH YAW DIRECTION
+    *
+    * INFO:    Zone de test.
+    *
+    *****************************************************/
+    private void TurnWithYawDirection()
     {
-        /*Hand hand = new Hand { Id = -1 };
-        
-        if (leapServiceController.GetLeapController() == null) return;
-
-        foreach (var item in leapServiceController.GetLeapController().Frame(0).Hands) // Get last frame
-        {
-            if (item.IsRight) hand = item;
-        }
-        if (hand.Id == -1) return;
-        */
-
         if (IsReadyToLook())
         {
-            DetectionController.HandController handController = DetectionController.GetInstance().GetHand(hand);
+            Hand leapHand = new Hand { Id = -1 };
+            if (leapServiceController.GetLeapController() == null) return;
+            foreach (var item in leapServiceController.GetLeapController().Frame(0).Hands) // Get last frame
+            {
+                if (item.IsRight) leapHand = item;
+            }
+            if (leapHand.Id == -1) return;
 
-            float yaw = handController.GetLeapHand().Direction.Yaw;
-            float pitch = handController.GetLeapHand().Direction.Pitch;
-            float roll = handController.GetLeapHand().PalmNormal.Roll;
-            //Debug.Log(string.Format("yaw:{0} pitch:{1} roll:{2}", yaw, pitch, roll));
+            float yawDirection = leapHand.Direction.Yaw;
 
-            /*float speedX;
-            if (pitch > 1.6f) speedX = 0.05f; // avance        
-            else if (pitch < 0.6f) speedX = -0.05f; // recule
-            else speedX = 0;
+            /*float rotHorizontale;
+            if (yawDirection > -0.2f && yawDirection < 1.2f) rotHorizontale = 0f;
+            else rotHorizontale = yawDirection; */
 
-            float speedY;
-            if (roll < 2 && roll > 0) speedY = 0.05f;
-            else if (roll < 0) speedY = -0.05f;
-            else speedY = 0; */
+            float rotHorizontale;
+            if (yawDirection > 1) rotHorizontale = -0.8f;
+            else if (yawDirection < 0) rotHorizontale = 0.8f;
+            else rotHorizontale = 0;
 
-            //if (speedX != 0) speedY = 0; // block axis to move only one axe at the same time
+            targetRot *= Quaternion.Euler(0f, rotHorizontale, 0f);
+            transform.rotation = targetRot;
+        }
+    }
 
-            float rotationY;
+    /*****************************************************
+    * TEST LOOK
+    *
+    * INFO:    Zone de test.
+    *
+    *****************************************************/
+    private void TestLook()
+    {
+        if (IsReadyToLook())
+        {
+            /*Hand leapHand = new Hand { Id = -1 };
+            if (DetectionController.GetInstance().GetLeapService().GetLeapController() == null) return;
+            foreach (var item in DetectionController.GetInstance().GetLeapFrame().Hands) 
+            {
+                if (item.IsRight) leapHand = item;
+            }
+            if (leapHand.Id == -1) return;
+   
+            float yaw = leapHand.Direction.Yaw;
+            float rotationY = 0f;
+
             if (yaw > 1) rotationY = -0.8f;
             else if (yaw < 0) rotationY = 0.8f;
-            else rotationY = 0;
 
-            //if (speedX > 0) rotationY = 0;  // block rotation when going forward
-            //if (rotationY != 0) speedY = 0; // block move left right when rotate
-
-            //firstPersonController.Move(speedY, speedX);
-            //firstPersonController.RotateView(rotationY, 0);
-            LookRotation(rotationY, 0);
+            targetRot *= Quaternion.Euler(0f, rotationY, 0f);
+            controller.transform.localRotation = targetRot;
+            */
         }
-    }
-
-    private void LookRotation(float yRotOverride = 0, float xRotOverride = 0)
-    {
-        //float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
-        //float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
-
-        //yRot = yRotOverride == 0 ? yRot : yRotOverride;
-        //xRot = xRotOverride == 0 ? xRot : xRotOverride;
-
-        float yRot = yRotOverride * YSensitivity;
-        //float xRot = xRotOverride * XSensitivity;
-
-        m_CharacterTargetRot *= Quaternion.Euler(0f, yRot, 0f);
-        //m_CameraTargetRot *= Quaternion.Euler(-xRot, 0f, 0f);
-
-        //if (clampVerticalRotation)
-            //m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
-
-        if (smooth)
-        {
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, m_CharacterTargetRot,smoothTime * Time.deltaTime);
-            //transform.localRotation = Quaternion.Slerp(transform.localRotation, m_CameraTargetRot,smoothTime * Time.deltaTime);
-        }
-        else
-        {
-            transform.localRotation = m_CharacterTargetRot;
-            //transform.localRotation = m_CameraTargetRot;
-        }
-    }
-
-    Quaternion ClampRotationAroundXAxis(Quaternion q)
-    {
-        q.x /= q.w;
-        q.y /= q.w;
-        q.z /= q.w;
-        q.w = 1.0f;
-
-        float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
-        angleX = Mathf.Clamp(angleX, MinimumX, MaximumX);
-        q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
-
-        return q;
     }
 
     /*****************************************************
     * IS READY TO LOOK
     *
     * INFO:    Retourne vrai si l'utilisateur active
-    *          le deplacement de la camera (vue) et que
+    *          la rotation de la camera (vue) et que
     *          les contraintes sont respectées.
     *
     *****************************************************/
@@ -436,6 +394,7 @@ public class LookController : HandDataStructure
         return isLooking && isHandSet && !isLookingPaused &&
             DetectionController.GetInstance().IsHandDetected(hand);
     }
+
 
     /*****************************************************
     * UPDATE
@@ -451,16 +410,11 @@ public class LookController : HandDataStructure
     {
         if (canLookAround)
         {
-            //Debug.Log(leapRotation.eulerAngles);
-            //float yaw = handController.GetHandRotation(RotationE.yaw);
-            //float roll = handController.GetHandRotation(RotationE.roll);
-            //float pitch = handController.GetHandRotation(RotationE.pitch);
-            //Debug.Log("Yaw: " + yaw + "       Roll: " + roll + "      Pitch: " + pitch);
-
             if (lookType == LookE.FingersPointing) { LookWithFingersOrientation(); }
             if (lookType == LookE.HandPos) { LookWithHandPosition(); }
-            if (lookType == LookE.YawPitch) { TurnWithYawPitch(); }
+            if (lookType == LookE.YawDirection) { TurnWithYawDirection(); }
             if (lookType == LookE.Mouse) { LookWithMouse(); }
+            if (lookType == LookE.Test) { TestLook(); }
         }
     }
 }

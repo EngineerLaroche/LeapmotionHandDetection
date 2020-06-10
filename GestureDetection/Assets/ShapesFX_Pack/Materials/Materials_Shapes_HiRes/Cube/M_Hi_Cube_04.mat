@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Hi_Cube_04
   m_Shader: {fileID: 4800000, guid: 22dc785c1bdd83f4abc47c99629605db, type: 3}
-  m_ShaderKeywords: _DIRECTIONCHANGE_ON _EMISSION
+  m_ShaderKeywords: _DIRECTIONCHANGE_ON _EMISSION _STRETCHING_ON _TARGETMODE_ON
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -114,7 +114,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GradientMap: 1
-    - _InfluenceRadius: 0.5
+    - _InfluenceRadius: 1
     - _Metallic: 0
     - _Mode: 0
     - _NormalPush: 0.2
@@ -127,8 +127,8 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Stretching: 0
-    - _TargetMode: 0
+    - _Stretching: 1
+    - _TargetMode: 1
     - _TileX: 0.2
     - _TileY: 1
     - _Transition_Factor: 1

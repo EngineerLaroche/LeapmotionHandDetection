@@ -266,8 +266,6 @@ Shader "Shapes_Shader_Pack"
 		}
 	}
 	CustomEditor "ShapeFxPackUI"
-	
-	
 }
 /*ASEBEGIN
 Version=17500

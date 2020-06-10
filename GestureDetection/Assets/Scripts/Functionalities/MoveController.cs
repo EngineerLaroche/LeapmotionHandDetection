@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 public enum MoveE { HandPosition, PalmAngle, BothHands, Keyboard, None }
 
@@ -58,13 +57,14 @@ public class MoveController : HandDataStructure
     public KeyCode rightKey = KeyCode.D;
 
     private float speedX, speedZ = 0;
-    private Vector3 startHandPosition;
+    private Vector3 lastHandPosition;
+    private Vector3 lastHandPosition2;
 
     private bool isHandSet = false;
     private bool isMoving = false;
     private bool isMovingPaused = true;
-    private CharacterController controller = null;
-
+    private CharacterController controller;
+ 
 
     /*****************************************************
     * START
@@ -79,9 +79,27 @@ public class MoveController : HandDataStructure
     }
 
     /*****************************************************
-    * GET HAND POSITION
+    * GET RELATIVE HAND POSITION
     *
     * INFO:    Retourne la position relative de la main.
+    *
+    *****************************************************/
+    Vector3 GetRelativeHandPosition()
+    {
+        if (DetectionController.GetInstance().IsHandDetected(hand))
+        {
+            return DetectionController
+                    .GetInstance()
+                    .GetHand(hand)
+                    .GetRelativeHandPosition();
+        }
+        return Vector3.zero;
+    }
+
+    /*****************************************************
+    * GET HAND POSITION
+    *
+    * INFO:    Retourne la position de la main.
     *
     *****************************************************/
     Vector3 GetHandPosition()
@@ -91,7 +109,7 @@ public class MoveController : HandDataStructure
             return DetectionController
                     .GetInstance()
                     .GetHand(hand)
-                    .GetRelativeHandPosition();
+                    .GetHandPosition();
         }
         return Vector3.zero;
     }
@@ -111,7 +129,7 @@ public class MoveController : HandDataStructure
             return DetectionController
                 .GetInstance()
                 .GetHand(hand)
-                .GetHandAxis(HandAxisE.doigt);
+                .GetAxis(HandAxisE.doigt);
         }
         return Vector3.zero;
     }
@@ -126,7 +144,8 @@ public class MoveController : HandDataStructure
     *****************************************************/
     public void PrepareToMove()
     {
-        startHandPosition = GetHandPosition();
+        lastHandPosition2 = GetHandPosition();
+        lastHandPosition = GetRelativeHandPosition();
         isHandSet = isHandSet ? false : true;
     }
 
@@ -141,6 +160,8 @@ public class MoveController : HandDataStructure
     *****************************************************/
     public void ToggleMoving()
     {
+        lastHandPosition2 = GetHandPosition();
+        lastHandPosition = GetRelativeHandPosition();
         isMoving = isMoving ? false : true;
     }
 
@@ -152,6 +173,8 @@ public class MoveController : HandDataStructure
     *****************************************************/
     public void PauseMoving()
     {
+        lastHandPosition2 = GetHandPosition();
+        lastHandPosition = GetRelativeHandPosition();
         isMovingPaused = isMovingPaused ? false : true;
     }
 
@@ -171,12 +194,11 @@ public class MoveController : HandDataStructure
     *****************************************************/
     private void MoveWithHandPosition()
     {
-        if (isMoving && isHandSet && !isMovingPaused && controller != null && 
-            DetectionController.GetInstance().IsHandDetected(hand))
+        if (IsReadyToMove())
         {
             //La position actuelle de la main           
-            Vector3 actualPosition = GetHandPosition();
-            Vector3 distance = actualPosition - startHandPosition;
+            Vector3 actualPosition = GetRelativeHandPosition();
+            Vector3 distance = actualPosition - lastHandPosition;
             float movingSpeed;
 
             //Pour le deplacement libre dans l'espace
@@ -191,22 +213,30 @@ public class MoveController : HandDataStructure
             if (moveInDepth) { controller.Move(transform.forward * distance.z * movingSpeed); }
 
             //Permet de maintient le deplacement dans un rayon
-            if (stayInRadius) { startHandPosition = actualPosition; }
+            if (stayInRadius) { lastHandPosition = actualPosition; }
         }
     }
 
     /*****************************************************
-    * 
+    * MOVE WITH PALM ANGLES
     *
     * INFO:    
     *
     *****************************************************/
     private void MoveWithPalmAngles()
     {
-        if (isMoving && isHandSet && !isMovingPaused &&
-            DetectionController.GetInstance().IsHandDetected(hand))
+        if (IsReadyToMove())
         {
-            // TODO
+            Vector3 actualPosition = GetHandPosition();
+            Vector3 distance = actualPosition - lastHandPosition2;
+
+            //*** TODO ***
+            //Replace transform.position with controller.Move()
+
+            //Déplacement horizontal (X) et en profondeur (Z) activé
+            transform.position += new Vector3(distance.x, 0, distance.z);   
+
+            lastHandPosition2 = actualPosition;
         }
     }
 
@@ -252,6 +282,20 @@ public class MoveController : HandDataStructure
 
         //Deplacement 
         transform.position = transform.TransformPoint(new Vector3(speedZ, 0, speedX));
+    }
+
+    /*****************************************************
+    * IS READY TO MOVE
+    *
+    * INFO:    Retourne vrai si l'utilisateur active
+    *          le deplacement de la camera et que
+    *          les contraintes sont respectées.
+    *
+    *****************************************************/
+    private bool IsReadyToMove()
+    {
+        return isMoving && isHandSet && !isMovingPaused && controller != null &&
+            DetectionController.GetInstance().IsHandDetected(hand);
     }
 
     /*****************************************************

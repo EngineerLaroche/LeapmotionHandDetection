@@ -158,7 +158,7 @@ partial class DetectionController
         *          composants de la main.
         * 
         *****************************************************/
-        public Vector3 GetHandAxis(HandAxisE _axis)
+        public Vector3 GetAxis(HandAxisE _axis)
         {
             switch (_axis)
             {
@@ -177,7 +177,7 @@ partial class DetectionController
         *          ou Roll de la main.
         * 
         *****************************************************/
-        public float GetHandRotation(RotationE _rotation)
+        public float GetRotationDirection(RotationE _rotation)
         {
             switch (_rotation)
             {
@@ -192,8 +192,8 @@ partial class DetectionController
         /*****************************************************
         * IS INDEX OPENED
         *
-        * INFO:    Retourne vrai si le doigt passé en parametre
-        *          est ouvert et que les autres sont fermés.
+        * INFO:    Retourne vrai si au moin l'index est ouvert
+        *           et que les autres sont fermés, sauf le pouce.
         * 
         *****************************************************/
         public bool IsIndexOpened()

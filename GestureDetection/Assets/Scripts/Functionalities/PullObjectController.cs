@@ -108,25 +108,6 @@ public class PullObjectController : HandDataStructure
     }
 
     /*****************************************************
-    * MOVE TO POSITION
-    *
-    * INFO:    Deplace un objet de sa position vers celle
-    *          de la camera en un temps donné. 
-    *           
-    *****************************************************/
-    public IEnumerator MoveToPosition(SelectedObject selectedObject, Vector3 position, float timeToMove)
-    {
-        Vector3 currentPos = selectedObject.TransformObject.position;
-        float t = 0f;
-        while (t < 1)
-        {
-            t += Time.deltaTime / timeToMove;
-            selectedObject.TransformObject.position = Vector3.Lerp(currentPos, position, t);
-            yield return null;
-        }
-    }
-
-    /*****************************************************
     * UPDATE
     *
     * INFO:    Deplace un objet de sa position vers celle
@@ -172,6 +153,25 @@ public class PullObjectController : HandDataStructure
                     }
                 }
             }
+        }
+    }
+
+    /*****************************************************
+    * MOVE TO POSITION
+    *
+    * INFO:    Deplace un objet de sa position vers celle
+    *          de la camera en un temps donné. 
+    *           
+    *****************************************************/
+    public IEnumerator MoveToPosition(SelectedObject selectedObject, Vector3 position, float timeToMove)
+    {
+        Vector3 currentPos = selectedObject.TransformObject.position;
+        float t = 0f;
+        while (t < 1)
+        {
+            t += Time.deltaTime / timeToMove;
+            selectedObject.TransformObject.position = Vector3.Lerp(currentPos, position, t);
+            yield return null;
         }
     }
 }

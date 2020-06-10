@@ -22,6 +22,9 @@ public class SelectionController : HandDataStructure
     [Header("Raycast laser pointer")]
     public HandsE raycastHand = HandsE.droite;
     public FingersE raycastFinger = FingersE.index;
+    public Color raycastColor = Color.red;
+    public GameObject lightDot;
+    public bool activateLightDot = false;
 
     [Header("Gun thumb trigger")]
     //Le temps maximum pour effectuer le geste (trigger fusil) 
@@ -29,7 +32,7 @@ public class SelectionController : HandDataStructure
     public float timeBeforeUnselect = 2.0f;
 
     //GameObject materials
-    [Header("Change object material on raycast hit")]
+    [Header("Object material on raycast hit")]
     public string selectableTag = "Selectable";
     public string shaderPath = "_OutlineTex";
     public Material defaultMaterial;
@@ -43,7 +46,6 @@ public class SelectionController : HandDataStructure
 
     //Parametres du raycast de style laser rouge
     private float raycastDistance;
-    private Color raycastColor;
 
     //Etat  de l'index
     private bool isOnlyIndexOpen = false;
@@ -85,12 +87,11 @@ public class SelectionController : HandDataStructure
     {
         //Initialise l'instance de cette classe
         if (instance == null) { instance = this; }
-        //else { Destroy(this); }
+        if (lightDot != null) { lightDot.SetActive(false); }
 
         //Liste des objets sélectionnés par raycast
         selectedObjectsList = new List<SelectedObject>();
         selectedObjectsIDList = new List<int>();
-        raycastColor = new Color32(255, 0, 0, 255);
     }
 
     /*****************************************************
@@ -185,22 +186,41 @@ public class SelectionController : HandDataStructure
             {
                 //Les controleurs de la main et doigt
                 fingerController = handController.GetFinger(raycastFinger);
+                Ray ray = fingerController.GetFingerRay();
 
                 //Trace la ligne rouge dans le sens que pointe le doigt de la main 3D
                 Debug.DrawRay(
                      fingerController.GetFingertipPosition(),
-                     fingerController.GetFingerRay().direction,
+                     ray.direction,
                      raycastColor,
                      Time.deltaTime, true);
 
+                //Active le point de lumiere (point raycast)
+                lightDot.SetActive(activateLightDot);
+
                 //Permet la selection d'objets 3D avec le raycast
-                SelectObjectWithRaycast(fingerController.GetFingerRay());
+                SelectObjectWithRaycast(ray);
             }
             // Si le raycast est désactivé, on reset une fois le highlight des objets
-            else { if (!isObjectsMaterialCleared) { ClearTargetedObjects(); } }
+            else { CheckResetHighlight(); }
         }
         // Si la main du raycast n'est plus détecté, on reset une fois le highlight des objets
-        else { if (!isObjectsMaterialCleared) { ClearTargetedObjects(); } }
+        else { CheckResetHighlight(); }
+    }
+
+    /*****************************************************
+    * CHECK RESET HIGHLIGHT
+    *
+    * INFO:    Verifie s'il faut retirer le highlight des
+    *          objects selectionnés.
+    *          
+    *          *** To be optimized ***
+    *
+    *****************************************************/
+    private void CheckResetHighlight()
+    {
+        lightDot.SetActive(false); 
+        if (!isObjectsMaterialCleared) { ClearTargetedObjects(); }
     }
 
     /*****************************************************
@@ -212,7 +232,7 @@ public class SelectionController : HandDataStructure
     *          material pour un autre. 
     *
     *****************************************************/
-    public void SelectObjectWithRaycast(Ray ray)
+    private void SelectObjectWithRaycast(Ray ray)
     {
         RaycastHit hit;
         raycastDistance = 0f;
@@ -340,7 +360,8 @@ public class SelectionController : HandDataStructure
     /*****************************************************
     * BLINK UNSELECT MATERIAL
     *
-    * INFO:    
+    * INFO:    Scintiller lorsqu'on atteint le mode
+    *          de deselection de groupe. (blink red)
     *
     *****************************************************/
     IEnumerator BlinkUnselectMaterial(Renderer _selected)
@@ -534,11 +555,6 @@ public class SelectionController : HandDataStructure
     {
         return raycastDistance;
     }
-
-    /*public bool IsGunActionDetected()
-    {
-        return isGunActionDetected;
-    }*/
 
     /*****************************************************
     * GET CLASS INSTANCE

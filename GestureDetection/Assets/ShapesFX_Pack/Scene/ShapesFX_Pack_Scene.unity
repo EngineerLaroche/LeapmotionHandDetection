@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073996, b: 0.35872692, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 0
 --- !u!196 &4
@@ -216,16 +217,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1543275245}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: e007a47bd1a5e584591cbb8236995d4b,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Cube
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: e007a47bd1a5e584591cbb8236995d4b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e007a47bd1a5e584591cbb8236995d4b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -301,6 +292,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 217e94d5c6c7e41418da27532bfb915b, type: 2}
+    - target: {fileID: -927199367670048503, guid: e007a47bd1a5e584591cbb8236995d4b,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: e007a47bd1a5e584591cbb8236995d4b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e007a47bd1a5e584591cbb8236995d4b, type: 3}
 --- !u!1 &506799179
@@ -350,6 +351,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -644,6 +646,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -751,6 +754,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -996,16 +1000,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1543275245}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Torus_Hi
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1066,6 +1060,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b019855658ea5dd42a0fabb9a601e3fe, type: 2}
+    - target: {fileID: -927199367670048503, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Torus_Hi
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2add4cd6a88f94a43a0e9b6b1c1a5204, type: 3}
 --- !u!1 &1756856474
@@ -1129,6 +1133,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1182,16 +1187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1543275245}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: e0e7c41e84526ee469a358cec098247a,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Sphere_Hi
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: e0e7c41e84526ee469a358cec098247a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e0e7c41e84526ee469a358cec098247a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1267,6 +1262,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 52177d48d71fb2c4e8e3c8d199dc1cb8, type: 2}
+    - target: {fileID: -927199367670048503, guid: e0e7c41e84526ee469a358cec098247a,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Sphere_Hi
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: e0e7c41e84526ee469a358cec098247a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0e7c41e84526ee469a358cec098247a, type: 3}
 --- !u!1 &1940777079 stripped
@@ -1305,11 +1310,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 8302431344691911496, guid: 5a7b6ba537b9e8c43a131401ef31f693,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Sphere_Hi (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 4999963745292183899, guid: 5a7b6ba537b9e8c43a131401ef31f693,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1365,6 +1365,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8302431344691911496, guid: 5a7b6ba537b9e8c43a131401ef31f693,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Sphere_Hi (4)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a7b6ba537b9e8c43a131401ef31f693, type: 3}
 --- !u!1001 &285694744803119903
@@ -1374,11 +1379,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 8130986125969293374, guid: 70f15e11292c9b24ebdf1b9e24cf8f01,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 5083518436883132973, guid: 70f15e11292c9b24ebdf1b9e24cf8f01,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1434,6 +1434,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8130986125969293374, guid: 70f15e11292c9b24ebdf1b9e24cf8f01,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70f15e11292c9b24ebdf1b9e24cf8f01, type: 3}
 --- !u!1001 &336477375014255187
@@ -1443,16 +1448,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 8613843978886175832, guid: d8045b3f809f9e2409efd5b21d7a0c89,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Dodecahedron (7)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8613843978886175832, guid: d8045b3f809f9e2409efd5b21d7a0c89,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4742814518717132363, guid: d8045b3f809f9e2409efd5b21d7a0c89,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1513,6 +1508,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 36b24b8ffda8a4f42ba30da75f33ee66, type: 2}
+    - target: {fileID: 8613843978886175832, guid: d8045b3f809f9e2409efd5b21d7a0c89,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Dodecahedron (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613843978886175832, guid: d8045b3f809f9e2409efd5b21d7a0c89,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8045b3f809f9e2409efd5b21d7a0c89, type: 3}
 --- !u!1001 &817124356562469886
@@ -1522,11 +1527,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 8680388475129469275, guid: 576cb1c5f4c830449b36a21effe55ce6,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron_Hex
-      objectReference: {fileID: 0}
     - target: {fileID: 5633359418032286536, guid: 576cb1c5f4c830449b36a21effe55ce6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1582,6 +1582,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8680388475129469275, guid: 576cb1c5f4c830449b36a21effe55ce6,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron_Hex
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 576cb1c5f4c830449b36a21effe55ce6, type: 3}
 --- !u!1001 &895950933571878565
@@ -1591,11 +1596,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 9173519865862346379, guid: 0afde071f299f2e4a90c40156c42efc7,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Cube (7)
-      objectReference: {fileID: 0}
     - target: {fileID: 5266320321411032216, guid: 0afde071f299f2e4a90c40156c42efc7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1651,6 +1651,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9173519865862346379, guid: 0afde071f299f2e4a90c40156c42efc7,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Cube (7)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0afde071f299f2e4a90c40156c42efc7, type: 3}
 --- !u!1001 &1021276850025004329
@@ -1660,11 +1665,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 9011035399949605332, guid: b0f93cf3f339dd2439e935242ff3d1c3,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 5428800371569044423, guid: b0f93cf3f339dd2439e935242ff3d1c3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1720,6 +1720,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9011035399949605332, guid: b0f93cf3f339dd2439e935242ff3d1c3,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron (4)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0f93cf3f339dd2439e935242ff3d1c3, type: 3}
 --- !u!1001 &1373162323292877176
@@ -1729,16 +1734,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Sphere_Hi (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6229823077806951889, guid: 4c7f041289d9f45449907f50361d4c66,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1794,6 +1789,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Sphere_Hi (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930932958637342658, guid: 4c7f041289d9f45449907f50361d4c66,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c7f041289d9f45449907f50361d4c66, type: 3}
 --- !u!1001 &1403916119343531695
@@ -1803,16 +1808,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 6942962190057476995, guid: 4c13a831d8cacc747b3f371ef1b53de7,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Torus_Hex_Hi (8)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942962190057476995, guid: 4c13a831d8cacc747b3f371ef1b53de7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6197237360356155792, guid: 4c13a831d8cacc747b3f371ef1b53de7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1868,6 +1863,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6942962190057476995, guid: 4c13a831d8cacc747b3f371ef1b53de7,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Torus_Hex_Hi (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942962190057476995, guid: 4c13a831d8cacc747b3f371ef1b53de7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c13a831d8cacc747b3f371ef1b53de7, type: 3}
 --- !u!1001 &1587991628958773970
@@ -1877,11 +1882,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 7289147393822124896, guid: 3f8c1e605a01f5846a47d0118df9f7b0,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Dodecahedron (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 6013177653827049843, guid: 3f8c1e605a01f5846a47d0118df9f7b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1937,6 +1937,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7289147393822124896, guid: 3f8c1e605a01f5846a47d0118df9f7b0,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Dodecahedron (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8c1e605a01f5846a47d0118df9f7b0, type: 3}
 --- !u!1001 &1817857855472303069
@@ -1946,11 +1951,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 7645908204948082828, guid: 9fb58b4bb7f43754e99ba37407287f94,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 6647560269435904671, guid: 9fb58b4bb7f43754e99ba37407287f94,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2006,6 +2006,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7645908204948082828, guid: 9fb58b4bb7f43754e99ba37407287f94,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fb58b4bb7f43754e99ba37407287f94, type: 3}
 --- !u!1001 &2093757345315642035
@@ -2015,11 +2020,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 7939679155286114601, guid: da77138f6ac1d4348b73e076774f74b6,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Cube
-      objectReference: {fileID: 0}
     - target: {fileID: 6373774317329707834, guid: da77138f6ac1d4348b73e076774f74b6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2074,6 +2074,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7939679155286114601, guid: da77138f6ac1d4348b73e076774f74b6,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Cube
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da77138f6ac1d4348b73e076774f74b6, type: 3}
@@ -2364,6 +2369,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Geo_Sphere_Hi (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258829646505346046, guid: 49650564142f81e4db0063afe5a83b79,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6953713680201839085, guid: 49650564142f81e4db0063afe5a83b79,
         type: 3}
@@ -2783,6 +2793,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Geo_Cube (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615613452924549402, guid: fd30687128d99074aab7f0e56a2f7d94,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8527190015892130569, guid: fd30687128d99074aab7f0e56a2f7d94,
         type: 3}
@@ -3415,6 +3430,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Geo_Cube (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5510081938735943315, guid: 9e54095c8c917934789535aca1c40ae5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8803665962469440640, guid: 9e54095c8c917934789535aca1c40ae5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3479,11 +3499,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3692024073141647987, guid: 36c969d8d83ff05408cf86084e3341b2,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron
-      objectReference: {fileID: 0}
     - target: {fileID: 389541085763504224, guid: 36c969d8d83ff05408cf86084e3341b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3539,6 +3554,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3692024073141647987, guid: 36c969d8d83ff05408cf86084e3341b2,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36c969d8d83ff05408cf86084e3341b2, type: 3}
 --- !u!1001 &4705975536072691258
@@ -3548,16 +3568,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3634148468936724380, guid: beb43198becbfff47b802e934c251859,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Cube (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3634148468936724380, guid: beb43198becbfff47b802e934c251859,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 302954072851758479, guid: beb43198becbfff47b802e934c251859,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3613,6 +3623,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3634148468936724380, guid: beb43198becbfff47b802e934c251859,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Cube (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634148468936724380, guid: beb43198becbfff47b802e934c251859,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beb43198becbfff47b802e934c251859, type: 3}
 --- !u!1001 &4887172815315370516
@@ -3622,11 +3642,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3527256247568228363, guid: 9a34768cbc6e9f44b902aa5c14601b04,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron_Hex (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 479647682344915480, guid: 9a34768cbc6e9f44b902aa5c14601b04,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3681,6 +3696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3527256247568228363, guid: 9a34768cbc6e9f44b902aa5c14601b04,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron_Hex (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a34768cbc6e9f44b902aa5c14601b04, type: 3}
@@ -4093,11 +4113,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3918107069940094068, guid: 2d2bba3b84f8753468a7a1ca7e330bc8,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron_Hex
-      objectReference: {fileID: 0}
     - target: {fileID: 1319714872567399, guid: 2d2bba3b84f8753468a7a1ca7e330bc8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4142,6 +4157,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3918107069940094068, guid: 2d2bba3b84f8753468a7a1ca7e330bc8,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron_Hex
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d2bba3b84f8753468a7a1ca7e330bc8, type: 3}
 --- !u!1001 &5418072078318295095
@@ -4151,11 +4171,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 4040070605238957300, guid: 83e13511da223a14088fe4c0de0ec259,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron_Hex (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 1029757611585898215, guid: 83e13511da223a14088fe4c0de0ec259,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4211,6 +4226,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4040070605238957300, guid: 83e13511da223a14088fe4c0de0ec259,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron_Hex (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83e13511da223a14088fe4c0de0ec259, type: 3}
 --- !u!1001 &5481578829717580891
@@ -4220,11 +4240,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 4554150709826840956, guid: a336ec41eb14a9a4496781ed8c48fa7d,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Sphere_Hi (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 678018423690926959, guid: a336ec41eb14a9a4496781ed8c48fa7d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4280,6 +4295,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4554150709826840956, guid: a336ec41eb14a9a4496781ed8c48fa7d,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Sphere_Hi (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a336ec41eb14a9a4496781ed8c48fa7d, type: 3}
 --- !u!1001 &5496916287800892604
@@ -4289,11 +4309,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 4569206571467998851, guid: 17eff78bf64a183438dbe987777a03c8,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 662676705666528400, guid: 17eff78bf64a183438dbe987777a03c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4349,6 +4364,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4569206571467998851, guid: 17eff78bf64a183438dbe987777a03c8,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17eff78bf64a183438dbe987777a03c8, type: 3}
 --- !u!1001 &5564474640163685493
@@ -4358,11 +4378,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 4474626543040954248, guid: 3a1cfacd19f9a5b49a5a1da1bcbf8c04,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron_Hex (6)
-      objectReference: {fileID: 0}
     - target: {fileID: 595118342833671579, guid: 3a1cfacd19f9a5b49a5a1da1bcbf8c04,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4418,6 +4433,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4474626543040954248, guid: 3a1cfacd19f9a5b49a5a1da1bcbf8c04,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron_Hex (6)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a1cfacd19f9a5b49a5a1da1bcbf8c04, type: 3}
 --- !u!1001 &5666250094999423716
@@ -4427,11 +4447,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 4432524337949966129, guid: 2812c117b83e2634c979e8bd47d9a3b5,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Dodecahedron (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 853472529767009570, guid: 2812c117b83e2634c979e8bd47d9a3b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4487,6 +4502,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4432524337949966129, guid: 2812c117b83e2634c979e8bd47d9a3b5,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Dodecahedron (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2812c117b83e2634c979e8bd47d9a3b5, type: 3}
 --- !u!1001 &5900968268574678488
@@ -4496,11 +4516,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 2505582998066526010, guid: 58ed9bf9542e7dc46b9c8e6db24cdc6a,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron_Hex (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 1485844480515212585, guid: 58ed9bf9542e7dc46b9c8e6db24cdc6a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4556,6 +4571,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2505582998066526010, guid: 58ed9bf9542e7dc46b9c8e6db24cdc6a,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron_Hex (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58ed9bf9542e7dc46b9c8e6db24cdc6a, type: 3}
 --- !u!1001 &6037972663856271124
@@ -4565,11 +4585,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 2371951368974686756, guid: e0d34aa0468e3d5479b302208ddd8e2b,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron_Hex (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 1635234285028517943, guid: e0d34aa0468e3d5479b302208ddd8e2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4625,6 +4640,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2371951368974686756, guid: e0d34aa0468e3d5479b302208ddd8e2b,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron_Hex (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0d34aa0468e3d5479b302208ddd8e2b, type: 3}
 --- !u!1001 &6050531745996240461
@@ -4634,11 +4654,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 2366117715166839816, guid: d1b9f5a4e516e9c459b721a85cb4934d,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 1625089586756695579, guid: d1b9f5a4e516e9c459b721a85cb4934d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4694,6 +4709,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2366117715166839816, guid: d1b9f5a4e516e9c459b721a85cb4934d,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron (4)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1b9f5a4e516e9c459b721a85cb4934d, type: 3}
 --- !u!1001 &6305232799744577853
@@ -4703,11 +4723,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 2639464271489312382, guid: 496a96625f8a65a409575ea0cd54b11e,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Icosahedron_Hex (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 1367435251799970925, guid: 496a96625f8a65a409575ea0cd54b11e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4763,6 +4778,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2639464271489312382, guid: 496a96625f8a65a409575ea0cd54b11e,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Icosahedron_Hex (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 496a96625f8a65a409575ea0cd54b11e, type: 3}
 --- !u!1001 &6524030401012964840
@@ -4772,11 +4792,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3002755273734301727, guid: 2d062ed94fa641a498ed33ca5f52e7e3,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 2301541564868712972, guid: 2d062ed94fa641a498ed33ca5f52e7e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4832,6 +4847,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3002755273734301727, guid: 2d062ed94fa641a498ed33ca5f52e7e3,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d062ed94fa641a498ed33ca5f52e7e3, type: 3}
 --- !u!1001 &6681697153971263537
@@ -4841,11 +4861,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3430552415866288060, guid: 9c2e5d1505f59a141a411becfc29ef12,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Octahedron (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 1855655566664762799, guid: 9c2e5d1505f59a141a411becfc29ef12,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4901,6 +4916,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430552415866288060, guid: 9c2e5d1505f59a141a411becfc29ef12,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Octahedron (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2e5d1505f59a141a411becfc29ef12, type: 3}
 --- !u!1001 &6773901362441067346
@@ -4910,11 +4930,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3251693970962788536, guid: 8fa344a486011e049b2af78d37fa671b,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Sphere_Hi (5)
-      objectReference: {fileID: 0}
     - target: {fileID: 1980193678979941035, guid: 8fa344a486011e049b2af78d37fa671b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4970,6 +4985,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3251693970962788536, guid: 8fa344a486011e049b2af78d37fa671b,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Sphere_Hi (5)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fa344a486011e049b2af78d37fa671b, type: 3}
 --- !u!1001 &6852582186680403414
@@ -4979,11 +4999,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1498348113}
     m_Modifications:
-    - target: {fileID: 3186488220837768143, guid: a754cdb636dc9dd4a99a430fa275e6dc,
-        type: 3}
-      propertyPath: m_Name
-      value: Geo_Dodecahedron (4)
-      objectReference: {fileID: 0}
     - target: {fileID: 1901636144879540700, guid: a754cdb636dc9dd4a99a430fa275e6dc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5038,6 +5053,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3186488220837768143, guid: a754cdb636dc9dd4a99a430fa275e6dc,
+        type: 3}
+      propertyPath: m_Name
+      value: Geo_Dodecahedron (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a754cdb636dc9dd4a99a430fa275e6dc, type: 3}
@@ -6234,7 +6254,7 @@ PrefabInstance:
     - target: {fileID: 1142560227191922818, guid: 5386f1db1d1704a4587a4cf9eca7ce65,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4143427801482351249, guid: 5386f1db1d1704a4587a4cf9eca7ce65,
         type: 3}

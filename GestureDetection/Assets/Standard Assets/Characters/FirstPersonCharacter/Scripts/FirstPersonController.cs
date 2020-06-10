@@ -277,7 +277,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
-
+        //*** HERE ***
         public void RotateView(float yRotOverride=0,float xRotOverride =0)
         {
             m_MouseLook.LookRotation (transform, m_Camera.transform, yRotOverride, xRotOverride);
