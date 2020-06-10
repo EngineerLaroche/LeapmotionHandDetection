@@ -51,8 +51,6 @@ public class LookController : HandDataStructure
     [ConditionalHide("allowLook")]
     public Vector2 targetCharacterDirection;
 
-    public LeapServiceProvider leapServiceController;
-    //private FirstPersonController controller;
 
     //Position initiale
     private Vector3 startHandPosition;
@@ -77,10 +75,10 @@ public class LookController : HandDataStructure
     *****************************************************/
     void Start()
     {
-        // Set target direction to the camera's initial orientation.
+        // Set target direction to the hands initial euler orientation.
         targetDirection = transform.localRotation.eulerAngles;
 
-        //controller = gameObject.GetComponent<FirstPersonController>();
+        // Set target rotation of the hands.
         targetRot = transform.rotation;
 
         // Set target direction for the character body to its inital state.
@@ -113,14 +111,14 @@ public class LookController : HandDataStructure
     *          dynamique.
     *          
     *****************************************************/
-    public Vector3 GetHandAxis()
+    public Vector3 GetHandAxis(HandAxisE axis)
     {
         if (DetectionController.GetInstance().IsHandDetected(hand))
         {
             return DetectionController
                 .GetInstance()
                 .GetHand(hand)
-                .GetAxis(HandAxisE.doigt);
+                .GetAxis(axis);
         }
         return Vector3.zero;
     }
@@ -167,45 +165,32 @@ public class LookController : HandDataStructure
     /*****************************************************
     * TURN WITH FINGERS ORIENTATION
     *
-    * INFO:    
+    * INFO:    Change la direction de la vue (rotation) en
+    *          fonction de la direction que pointe les doigts.
+    *          Rotation 'smooth' entre 0 et 360 degrés.
     * 
     *****************************************************/
     private void LookWithFingersOrientation()
     {
         if (IsReadyToLook())
         {
-
             //L'axe (direction) actuel des doigts de la main
-            Vector3 handAxis = GetHandAxis();
-            //Debug.Log("handAxis:  " + handAxis.x + "   " + handAxis.y + "   " + handAxis.z);
+            Vector3 axisFingers = GetHandAxis(HandAxisE.doigt);
+            
+            float rotHorizontale = 0f, rotVerticale = 0f;
 
-           Vector3 deltaAxis = new Vector3(-handAxis.x, -handAxis.y);
-           Debug.Log("deltaAxis:  " + deltaAxis.x + "   " + deltaAxis.y + "   " + deltaAxis.z);
+            if (lookHorizontal)
+            {
+                if (axisFingers.x > 0.3f || axisFingers.x < -0.5f) rotHorizontale = axisFingers.x;
+            }
+            if (lookVertical)
+            {
+                if (axisFingers.y > 0.3f || axisFingers.y < -0.5f) rotVerticale = axisFingers.y;
+            }
 
-
-            // Scale input against the sensitivity setting and multiply that against the smoothing value.
-            deltaAxis = Vector3.Scale(deltaAxis, new Vector3(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
-
-            // Interpolate mouse movement over time to apply smoothing delta.
-            smoothRotation.x = Mathf.Lerp(smoothRotation.x, deltaAxis.x, 1f / smoothing.x);
-            smoothRotation.y = Mathf.Lerp(smoothRotation.y, deltaAxis.y, 1f / smoothing.y);
-
-            // Find the absolute mouse movement value from point zero.
-            moveAbsolute += smoothRotation;
-
-            // Contrôle de l'angle min et max
-            if (clampInDegrees.x < 360) moveAbsolute.x = Mathf.Clamp(moveAbsolute.x, -clampInDegrees.x * 0.5f, clampInDegrees.x * 0.5f);
-            if (clampInDegrees.y < 360) moveAbsolute.y = Mathf.Clamp(moveAbsolute.y, -clampInDegrees.y * 0.5f, clampInDegrees.y * 0.5f);
-
-            // Vertical
-            Quaternion verticalRotation = Quaternion.AngleAxis(-moveAbsolute.y, Vector3.right);
-            transform.localRotation = verticalRotation;
-
-            // Horizontal
-            Quaternion horizontalRotation = Quaternion.AngleAxis(moveAbsolute.x, Vector3.up);
-
-            if (lookVertical) { transform.localRotation *= horizontalRotation; }
-            else { transform.localRotation = horizontalRotation; }
+            //Applique la rotation horizontale
+            targetRot *= Quaternion.Euler(rotVerticale, rotHorizontale, 0f);
+            transform.rotation = targetRot;
         }
     }
 
@@ -316,40 +301,6 @@ public class LookController : HandDataStructure
     }
 
     /*****************************************************
-    * TURN WITH YAW DIRECTION
-    *
-    * INFO:    Zone de test.
-    *
-    *****************************************************/
-    private void TurnWithYawDirection()
-    {
-        if (IsReadyToLook())
-        {
-            Hand leapHand = new Hand { Id = -1 };
-            if (leapServiceController.GetLeapController() == null) return;
-            foreach (var item in leapServiceController.GetLeapController().Frame(0).Hands) // Get last frame
-            {
-                if (item.IsRight) leapHand = item;
-            }
-            if (leapHand.Id == -1) return;
-
-            float yawDirection = leapHand.Direction.Yaw;
-
-            /*float rotHorizontale;
-            if (yawDirection > -0.2f && yawDirection < 1.2f) rotHorizontale = 0f;
-            else rotHorizontale = yawDirection; */
-
-            float rotHorizontale;
-            if (yawDirection > 1) rotHorizontale = -0.8f;
-            else if (yawDirection < 0) rotHorizontale = 0.8f;
-            else rotHorizontale = 0;
-
-            targetRot *= Quaternion.Euler(0f, rotHorizontale, 0f);
-            transform.rotation = targetRot;
-        }
-    }
-
-    /*****************************************************
     * TEST LOOK
     *
     * INFO:    Zone de test.
@@ -359,23 +310,34 @@ public class LookController : HandDataStructure
     {
         if (IsReadyToLook())
         {
-            /*Hand leapHand = new Hand { Id = -1 };
-            if (DetectionController.GetInstance().GetLeapService().GetLeapController() == null) return;
-            foreach (var item in DetectionController.GetInstance().GetLeapFrame().Hands) 
-            {
-                if (item.IsRight) leapHand = item;
-            }
-            if (leapHand.Id == -1) return;
-   
-            float yaw = leapHand.Direction.Yaw;
-            float rotationY = 0f;
+            /*
+            //L'axe (direction) actuel des doigts de la main
+            Vector3 axisFingers = GetHandAxis(HandAxisE.doigt);
+            Vector3 deltaAxis = new Vector3(-handAxis.x, -handAxis.y, 0f);
 
-            if (yaw > 1) rotationY = -0.8f;
-            else if (yaw < 0) rotationY = 0.8f;
+            // Scale input against the sensitivity setting and multiply that against the smoothing value.
+            deltaAxis = Vector3.Scale(deltaAxis, new Vector3(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
 
-            targetRot *= Quaternion.Euler(0f, rotationY, 0f);
-            controller.transform.localRotation = targetRot;
-            */
+            // Interpolate mouse movement over time to apply smoothing delta.
+            smoothRotation.x = Mathf.Lerp(smoothRotation.x, deltaAxis.x, 1f / smoothing.x);
+            smoothRotation.y = Mathf.Lerp(smoothRotation.y, deltaAxis.y, 1f / smoothing.y);
+
+            // Find the absolute mouse movement value from point zero.
+            moveAbsolute += smoothRotation;
+
+            // Contrôle de l'angle min et max
+            if (clampInDegrees.x < 360) moveAbsolute.x = Mathf.Clamp(moveAbsolute.x, -clampInDegrees.x * 0.5f, clampInDegrees.x * 0.5f);
+            if (clampInDegrees.y < 360) moveAbsolute.y = Mathf.Clamp(moveAbsolute.y, -clampInDegrees.y * 0.5f, clampInDegrees.y * 0.5f);
+
+            // Rotation Verticale
+            Quaternion verticalRotation = Quaternion.AngleAxis(-moveAbsolute.y, Vector3.right);
+            transform.localRotation = verticalRotation;
+
+            // Rotation Horizontale
+            Quaternion horizontalRotation = Quaternion.AngleAxis(moveAbsolute.x, Vector3.up);
+
+            if (lookVertical) { transform.localRotation *= horizontalRotation; }
+            else { transform.localRotation = horizontalRotation; } */
         }
     }
 
@@ -410,7 +372,6 @@ public class LookController : HandDataStructure
         {
             if (lookType == LookE.FingersPointing) { LookWithFingersOrientation(); }
             if (lookType == LookE.HandPos) { LookWithHandPosition(); }
-            if (lookType == LookE.YawDirection) { TurnWithYawDirection(); }
             if (lookType == LookE.Mouse) { LookWithMouse(); }
             if (lookType == LookE.Test) { TestLook(); }
         }

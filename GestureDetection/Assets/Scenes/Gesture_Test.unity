@@ -6637,7 +6637,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1151375765}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &719880947
 Light:
@@ -7133,7 +7133,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1151375765}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &791346426
 Light:
@@ -9725,12 +9725,12 @@ Transform:
   m_LocalPosition: {x: -0.030522842, y: -0.8933865, z: 1.4250696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 434277474}
   - {fileID: 1256666063}
   - {fileID: 1981213629}
-  - {fileID: 1779362921}
+  - {fileID: 434277474}
   - {fileID: 719880946}
   - {fileID: 791346425}
+  - {fileID: 1779362921}
   - {fileID: 1922177445}
   - {fileID: 508935581}
   m_Father: {fileID: 0}
@@ -10317,7 +10317,7 @@ Transform:
   m_LocalScale: {x: 3.4136, y: 2.0728, z: 0.064315}
   m_Children: []
   m_Father: {fileID: 1151375765}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 36.29, z: 0}
 --- !u!1 &1281695144
 GameObject:
@@ -16453,7 +16453,7 @@ Transform:
   m_LocalScale: {x: 3.4136, y: 2.0728, z: 0.064315}
   m_Children: []
   m_Father: {fileID: 1151375765}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2000846349
 GameObject:
@@ -17586,7 +17586,6 @@ GameObject:
   - component: {fileID: 2127288302}
   - component: {fileID: 2127288304}
   - component: {fileID: 2127288305}
-  - component: {fileID: 2127288301}
   m_Layer: 0
   m_Name: HeadMounted
   m_TagString: Untagged
@@ -17610,27 +17609,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2127288301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127288299}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb8f8839ee256bb458e1657c1ee40572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _roomScaleHeightOffset: 1.6
-  recenterOnUserPresence: 0
-  recenterOnStart: 1
-  recenterOnKey: 0
-  recenterKey: 114
-  enableRuntimeAdjustment: 1
-  stepUpKey: 273
-  stepDownKey: 274
-  stepSize: 0.1
 --- !u!114 &2127288302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17655,7 +17633,6 @@ MonoBehaviour:
   isHeadMounted: 0
   lockCursor: 0
   targetCharacterDirection: {x: 0, y: 0}
-  leapServiceController: {fileID: 0}
 --- !u!114 &2127288303
 MonoBehaviour:
   m_ObjectHideFlags: 0

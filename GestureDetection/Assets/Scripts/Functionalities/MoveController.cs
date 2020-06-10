@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MoveE { HandPosition, PalmAngle, BothHands, Keyboard, None }
 
 /*****************************************************
  * CLASS:   MOVE CONTROLLER

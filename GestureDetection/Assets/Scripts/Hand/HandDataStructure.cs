@@ -88,7 +88,15 @@ public class HandDataStructure : MonoBehaviour
     * ENUM :    Le type de rotation de la camera (vue).
     * 
     *****************************************************/
-    public enum LookE { FingersPointing, HandPos, Raycast, YawDirection, Mouse, Test, None }
+    public enum LookE { FingersPointing, HandPos, Raycast, Mouse, Test, None }
+
+    /*****************************************************
+    * MOVE TYPE
+    *
+    * ENUM :    Le type de deplacement de la camera.
+    * 
+    *****************************************************/
+    public enum MoveE { HandPosition, PalmAngle, BothHands, Keyboard, None }
 
     /*****************************************************
     * DIRECTIONS
