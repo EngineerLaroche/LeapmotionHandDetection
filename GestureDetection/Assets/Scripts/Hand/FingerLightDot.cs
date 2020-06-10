@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************************************************
+ * CLASS:   FINGER LIGHT DOT
+ *
+ * INFO:    Permet d'avoir un pointeur lazer. On utilise
+ *          un point de lumiere tres fort pour le simuler.
+ * 
+ *****************************************************/
 [RequireComponent(typeof(Light))]
 public class FingerLightDot : HandDataStructure
 {

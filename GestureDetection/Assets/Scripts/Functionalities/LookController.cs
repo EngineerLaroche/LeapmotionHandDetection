@@ -2,8 +2,6 @@
 using UnityEngine;
 using Leap;
 using Leap.Unity;
-using UnityStandardAssets.CrossPlatformInput;
-using UnityStandardAssets.Characters.FirstPerson;
 
 
 /*****************************************************
